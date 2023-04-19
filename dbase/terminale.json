@@ -1,0 +1,50 @@
+[
+  {
+    "tid": "b1",
+    "name": "Bufor"
+  },
+  {
+    "tid": "tl",
+    "name": "Łazienkowska",
+    "sectors": [
+      { "sid": "tl1", "name": "Łazienkowska 1" },
+      { "sid": "tl2", "name": "Łazienkowska 2" },
+      { "sid": "tl3", "name": "Łazienkowska 3" },
+      { "sid": "tl4", "name": "Łazienkowska 4" },
+      { "sid": "tl5", "name": "Łazienkowska 5" },
+      { "sid": "tl6", "name": "Łazienkowska 6" }
+    ]
+  },
+  {
+    "tid": "ta",
+    "name": "Torwar A",
+    "sectors": [
+      { "sid": "ta1", "name": "Torwar A1" },
+      { "sid": "ta2", "name": "Torwar A2" },
+      { "sid": "ta3", "name": "Torwar A3" },
+      { "sid": "ta4", "name": "Torwar A4" },
+      { "sid": "ta5", "name": "Torwar A5" },
+      { "sid": "ta6", "name": "Torwar A6" },
+      { "sid": "ta7", "name": "Torwar A7" },
+      { "sid": "ta8", "name": "Torwar A8" },
+      { "sid": "ta9", "name": "Torwar A9" },
+      { "sid": "ta10", "name": "Torwar A10" }
+    ]
+  },
+  {
+    "tid": "tb",
+    "name": "Torwar B",
+    "sectors": [
+      { "sid": "tb1", "name": "Torwar B1" },
+      { "sid": "tb2", "name": "Torwar B2" },
+      { "sid": "tb3", "name": "Torwar B3" },
+      { "sid": "tb4", "name": "Torwar B4" },
+      { "sid": "tb5", "name": "Torwar B5" },
+      { "sid": "tb6", "name": "Torwar B6" },
+      { "sid": "tb7", "name": "Torwar B7" },
+      { "sid": "tb8", "name": "Torwar B8" },
+      { "sid": "tb9", "name": "Torwar B9" },
+      { "sid": "tb10", "name": "Torwar B10" }
+    ]
+  }
+]
