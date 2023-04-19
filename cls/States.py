@@ -1,4 +1,3 @@
-from flask import current_app
 from pathlib import Path
 import json
 import logging
@@ -18,7 +17,7 @@ class States:
         ...
     }
     """
-    _filename = "./states/states.json"
+    _filename = "states/states.json"
 
     def __init__(self):
         self._states = {}
@@ -35,7 +34,7 @@ class States:
             with open(self._filename, "w", encoding="utf-8") as f:
                 json.dump(self._states, f)
         except Exception as e:
-            current_app.logger.error(f"States :: save to file exception: {e}")
+            logging.error(f"States :: save to file exception: {e}")
 
     def find_by_bid(self, bid):
         if bid not in self._states:
@@ -49,3 +48,5 @@ class States:
     def set_state(self, bid, state):
         self._states[bid] = state
         self.save()
+
+states = States()

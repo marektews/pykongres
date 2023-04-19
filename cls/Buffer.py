@@ -1,10 +1,10 @@
-from flask import current_app
 from pathlib import Path
 import json
+import logging
 
 
 class Buffer:
-    _filename = "./dbase/autokary.json"
+    _filename = "dbase/autokary.json"
 
     def __init__(self):
         self._buses = []
@@ -14,7 +14,7 @@ class Buffer:
             with open(p.absolute(), "r", encoding="utf-8") as f:
                 self._buses = json.load(f)
         except Exception as e:
-            current_app.logger.error(f"Buffer :: __init__ enception: {e}")
+            logging.error(f"Buffer :: __init__ enception: {e}")
 
     def buffer(self, tid):
         """
@@ -31,3 +31,5 @@ class Buffer:
                 o["substitution"] = item[current_app.config["active_day"]]["substitution"]
                 res.append(o)
         return res
+
+buffer = Buffer()

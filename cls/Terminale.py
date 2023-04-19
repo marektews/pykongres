@@ -1,10 +1,10 @@
-from flask import current_app
 from pathlib import Path
 import json
+import logging
 
 
 class Terminale:
-    _filename = "./dbase/terminale.json"
+    _filename = "dbase/terminale.json"
 
     def __init__(self):
         self._terminals = []
@@ -14,11 +14,11 @@ class Terminale:
             with open(p.absolute(), "r", encoding="utf-8") as f:
                 self._terminals = json.load(f)
         except Exception as e:
-            current_app.logger.error(f"Terminale :: __init__ enception: {e}")
+            logging.error(f"Terminale :: __init__ enception: {e}")
 
     def root_list(self):
         """
-        Budowanie listy terminali; tylko pierwsszy poziom
+        Budowanie listy terminali; tylko pierwszy poziom
         :return: Lista terminali
         """
         res = []
@@ -54,3 +54,5 @@ class Terminale:
                 if item["sid"] == str(sid):
                     return item
         return {}
+
+terminale = Terminale()
