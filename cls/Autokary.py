@@ -1,3 +1,4 @@
+from flask import current_app
 from pathlib import Path
 import json
 import logging
@@ -16,6 +17,20 @@ class Autokary:
             logging.info(f"Autokary :: loading complete : {len(self._buses)}")
         except Exception as e:
             logging.error(f"Autokary :: __init__ exception: {e}")
+
+    def all_list(self):
+        res = []
+        active_day = current_app.config["active_day"]
+        for item in self._buses:
+            o = dict()
+            o['bid'] = item['bid']
+            o['congregation'] = item['congregation']
+            o['buffer'] = item['buffer']
+            o['sector'] = item['sector']
+            o['substitution'] = item[active_day]['substitution']
+            o['departure'] = item[active_day]['departure']
+            res.append(o)
+        return res
 
     def find_by_bid(self, bid):
         for item in self._buses:
