@@ -1,7 +1,8 @@
 from flask import Blueprint, redirect, request
 from flask_login import LoginManager, login_user, logout_user, UserMixin
-from sql import Zbory
+from sql import Zbory, Users
 from uuid import uuid4
+from hashlib import sha256
 
 login_api = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -27,7 +28,23 @@ def login():
         if login_user(User(uid=uuid4().hex)):
             return "", 200  # OK
         else:
-            return "", 403  # Forbiden
+            return "", 403  # Forbidden
+    else:
+        return "", 401  # Unauthorized
+
+
+@login_api.route('/admin', methods=['POST'])
+def login_admin():
+    _login = request.json['login']
+    _passwd = request.json['password']
+    h = sha256(_passwd.encode('utf8'))
+    _hash = h.hexdigest()
+    res = Users.query.filter_by(login=_login, hash=_hash).all()
+    if len(res) == 1:
+        if login_user(User(uid=_hash)):
+            return "", 200  # OK
+        else:
+            return "", 403  # Forbidden
     else:
         return "", 401  # Unauthorized
 

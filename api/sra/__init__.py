@@ -1,4 +1,5 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
+from flask_login import login_required
 from sql import db, Zbory, Pilot, Bus, SRA
 from mail import sendEmail
 
@@ -11,6 +12,7 @@ def search_congregations(pattern):
     return [zbor.name for zbor in zbory]
 
 
+@login_required
 @sra_api.route('/submit', methods=['POST'])
 def submit_sra_registration():
     try:
@@ -56,6 +58,7 @@ def submit_sra_registration():
         db.session.add(sra)
         db.session.flush()
         db.session.commit()
+        current_app.logger.info(f"SRA submit finished")
 
         # wysłanie maila z potwierdzeniem zgłoszenia
         mail_body = f"""
@@ -101,13 +104,15 @@ def submit_sra_registration():
             Data wysłania: {sra.timestamp}
         """
         sendEmail(
-            recipients=[confirm_email, 'rafal_jankowski@o2.pl'],
+            recipients=[confirm_email, 'rafal_jankowski@o2.pl', 'lukasglewicz@gmail.com'],
             subject="Potwierdzenie zgłoszenia autokaru",
             body=mail_body
         )
+        current_app.logger.info(f"SRA send email finished")
 
         return "", 200
     except Exception as e:
+        current_app.logger.error(f"SRA submit exception: {e}")
         db.session.rollback()
         return f"{e}", 500
 
@@ -139,3 +144,48 @@ def _bus_parking_mode_string(mode):
         "needed": "potrzebne miejsce parkingowe",
         "not_needed": "pojazd tylko dowozi pasażerów, odjeżdza i przyjeżdza odebrać ich po programie"
     }[mode]
+
+
+@login_required
+@sra_api.route('/table')
+def get_table():
+    try:
+        res = []
+        all_sra = SRA.query.order_by(SRA.timestamp.desc()).all()
+        for sra in all_sra:
+            item = dict()
+            item["id"] = sra.id
+            item["info"] = sra.info
+            item["timestamp"] = sra.timestamp.strftime("%a, %x %X")
+
+            zbor = Zbory.query.filter_by(id=sra.zbor_id).first()
+            z = dict()
+            z["name"] = zbor.name
+            z["number"] = zbor.number
+            z["lang"] = zbor.lang
+            item["zbor"] = z
+
+            bus = Bus.query.filter_by(id=sra.bus_id).first()
+            b = dict()
+            b["type"] = bus.type
+            b["distance"] = bus.distance
+            b["parking_mode"] = bus.parking_mode
+            item["bus"] = b
+
+            ids = [sra.pilot1_id, sra.pilot2_id, sra.pilot3_id]
+            for i in range(3):
+                _id = ids[i]
+                if _id is not None:
+                    pilot = Pilot.query.filter_by(id=_id).first()
+                    p = dict()
+                    p["fn"] = pilot.fn
+                    p["ln"] = pilot.ln
+                    p["email"] = pilot.email
+                    p["phone"] = pilot.phone
+                    item[f"pilot{i+1}"] = p
+
+            res.append(item)
+        return res, 200
+    except Exception as e:
+        current_app.logger.error(f"SRA get table exception: {e}")
+        return f"{e}", 500

@@ -1,0 +1,16 @@
+[Unit]
+Description=Kongres REST API
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/opt/pykongres
+Environment="PATH=/opt/pykongres/venv/bin"
+ExecStart=/opt/pykongres/venv/bin/gunicorn --workers 3 --bind unix:/run/pykongres.nginx.sock --log-level debug --access-logfile /var/log/gunicorn/access.log -m 007 main:app
+ExecStartPost=/usr/bin/sleep 3
+ExecStartPost=/usr/bin/chmod 0777 /run/pykongres.nginx.sock
+
+[Install]
+WantedBy=multi-user.target
+
