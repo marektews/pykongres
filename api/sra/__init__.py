@@ -19,6 +19,26 @@ def search_congregations(pattern):
     return [zbor.name for zbor in zbory]
 
 
+# @login_required
+@sra_api.route('/check_pilot_duplicate', methods=['POST'])
+def is_pilot_duplicate():
+    """
+    Sprawdzanie czy podane dane pilota nie są już przypisane do innego autokaru
+    :return: HTTP codes: 200, 400
+    """
+    try:
+        data = request.json
+        _phone = f"{data['phone']['direct']} {data['phone']['number']}"
+        p = Pilot.query.filter_by(phone=_phone).first()
+        if p is None:
+            return "", 200
+        else:
+            return "", 400
+    except Exception as e:
+        current_app.logger.error(f"SRA submit exception: {e}")
+        return f"{e}", 500
+
+
 @login_required
 @sra_api.route('/submit', methods=['POST'])
 def submit_sra_registration():
@@ -114,7 +134,7 @@ def submit_sra_registration():
             Data wysłania: {sra.timestamp}
         """
         sendEmail(
-            recipients=[confirm_email, 'rafal_jankowski@o2.pl', 'lukasglewicz@gmail.com'],
+            recipients=[confirm_email, 'rafal_jankowski@o2.pl', 'lukasglewicz@gmail.com', 'marek.tews@gmail.com'],
             subject="Potwierdzenie zgłoszenia autokaru",
             body=mail_body
         )
@@ -266,7 +286,7 @@ def buildXlsx():
             xlsx_stream,
             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             as_attachment=True,
-            download_name="SRA-Zgłoszenia.xlsx",
+            download_name="Ankiety autokarów.xlsx",
         )
     except Exception as e:
         current_app.logger.error(f"SRA export to XLSX exception: {e}")
