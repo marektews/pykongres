@@ -286,7 +286,7 @@ def buildXlsx():
             xlsx_stream,
             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             as_attachment=True,
-            download_name="Ankiety autokarów.xlsx",
+            download_name="Ankiety autokarów.xlsx"
         )
     except Exception as e:
         current_app.logger.error(f"SRA export to XLSX exception: {e}")

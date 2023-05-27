@@ -4,6 +4,7 @@ from flask import Flask
 from api import api, login_manager
 from sql import db
 from mail import mail
+from qr import qrc
 
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
@@ -11,6 +12,7 @@ app.register_blueprint(api)
 mail.init_app(app)
 db.init_app(app)
 login_manager.init_app(app)
+qrc.init_app(app)
 
 # polskie locale
 locale.setlocale(locale.LC_ALL, 'pl_PL')
