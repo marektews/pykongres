@@ -27,7 +27,7 @@
      borderlayer="true"
      showguides="true"
      inkscape:zoom="0.73851712"
-     inkscape:cx="247.11682"
+     inkscape:cx="248.47088"
      inkscape:cy="322.26741"
      inkscape:window-width="2560"
      inkscape:window-height="1009"
@@ -69,7 +69,7 @@
        x="10.94321"
        y="10.9418" /><text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:19.3805px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264582"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:19.3805px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264582"
        x="25.326813"
        y="100.2758"
        id="text8567"
@@ -78,7 +78,7 @@
          id="nazwaZboru"
          x="25.326813"
          y="100.2758"
-         style="stroke-width:0.264582;-inkscape-font-specification:'sans-serif, Bold';font-family:sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:19.38050116px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Warszawa-Białołęka</tspan></text><path
+         style="stroke-width:0.264582;-inkscape-font-specification:'Roboto, Bold';font-family:Roboto;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:19.38050116px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Warszawa-Białołęka</tspan></text><path
        style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
        d="M 10.94321,129.06416 H 285.96863"
        id="path4369"
@@ -117,7 +117,7 @@
        x="81.292793"
        y="10.9418" /><text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40.5423px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264582"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40.5423px;line-height:1.25;font-family:Roboto;-inkscape-font-specification:'Roboto, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264582"
        x="52.671677"
        y="160.71851"
        id="text6970"
@@ -126,7 +126,7 @@
          id="rejnum"
          x="52.671677"
          y="160.71851"
-         style="stroke-width:0.264582;-inkscape-font-specification:'sans-serif, Bold';font-family:sans-serif;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:40.54230099px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">AK 1234 AB</tspan></text><g
+         style="stroke-width:0.264582;-inkscape-font-specification:'Roboto, Bold';font-family:Roboto;font-weight:bold;font-style:normal;font-stretch:normal;font-variant:normal;font-size:40.54230099px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">AK 1234 AB</tspan></text><g
        id="g8057"><path
          style="fill:none;stroke:#000000;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
          d="m 154.49633,82.758745 h 131.4723"

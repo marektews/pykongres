@@ -4,6 +4,7 @@ from flask_login import login_required
 from sql import db, SRP, Zbory
 from qr import gen_qrcode
 from svglib.svglib import svg2rlg
+from svglib.fonts import register_font
 from reportlab.graphics import renderPDF
 from .generate import gen_1, gen_3
 
@@ -139,6 +140,8 @@ def download_pass_id(pass_id):
         else:
             svg = gen_3(srp, svg_qrcode, zbor)
 
+        register_font("Roboto", "Roboto-Regular.ttf")
+        register_font("Roboto-Bold", "Roboto-Bold.ttf")
         fd_svg = io.BytesIO()
         fd_svg.write(svg)
         fd_svg.seek(0)
