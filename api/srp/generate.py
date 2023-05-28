@@ -24,7 +24,7 @@ def gen_1(srp, svg_qrcode, zbor):
     grp = ET.SubElement(elem, "svg:g")
     grp.set("id", "g1864")
     grp.set("style", "stroke-width:1.35465")
-    grp.set("transform", "translate(86.4 15.5) scale(0.89 0.89)")
+    grp.set("transform", "translate(86.4 15.5) scale(1.02 1.02)")
     grp.append(qrcode_tree)
     elem.append(grp)
 
@@ -57,7 +57,7 @@ def gen_3(srp, svg_qrcode, zbor):
     grp = ET.SubElement(elem, "svg:g")
     grp.set("id", "g1864")
     grp.set("style", "stroke-width:1.35465")
-    grp.set("transform", "translate(86.4 15.5) scale(0.89 0.89)")
+    grp.set("transform", "translate(86.4 15.5) scale(1.02 1.02)")
     grp.append(qrcode_tree)
     elem.append(grp)
 

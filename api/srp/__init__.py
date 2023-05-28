@@ -33,8 +33,8 @@ def is_free_pass_id(congregation):
 
 
 @login_required
-@system_rej_poj_api.route('/generate', methods=['POST'])
-def generate_pass_id():
+@system_rej_poj_api.route('/create', methods=['POST'])
+def create_pass_id():
     """
     Generowanie przepustki parkingowej
 
@@ -43,6 +43,8 @@ def generate_pass_id():
         "regnum1": "<numer rejestracyjny na piątek lub na wszystkie dni>",
         "regnum2": "" | None,
         "regnum3": "" | None,
+
+    :return 200, 400, 500
     """
     try:
         data = request.json
@@ -52,11 +54,28 @@ def generate_pass_id():
         regnum3 = data['regnum3']
 
         db.session.begin()
-
-        srp = SRP()
-
         zbor = Zbory.query.filter_by(name=congregation).first()
+
+        # poszukiwanie nieużywanego jeszcze numeru identyfikatora
+        used_numbers = [1, 2, 3, 4]
+        tmp = SRP.query.filter_by(zbor_id=zbor.id).all()
+        for item in tmp:
+            used_numbers.remove(item.pass_nr)
+            # testowanie czy pojazd nie wystepuje już na innym identyfikatorze
+            if regnum1 == item.regnum1 or regnum1 == item.regnum2 or regnum1 == item.regnum3:
+                db.session.rollback()
+                return "", 400
+            if regnum2 is not None and (regnum2 == item.regnum1 or regnum2 == item.regnum2 or regnum2 == item.regnum3):
+                db.session.rollback()
+                return "", 400
+            if regnum3 is not None and (regnum3 == item.regnum1 or regnum3 == item.regnum2 or regnum3 == item.regnum3):
+                db.session.rollback()
+                return "", 400
+
+        # tworzenie nowego wpisu z nowym identyfikatorem
+        srp = SRP()
         srp.zbor_id = zbor.id
+        srp.pass_nr = used_numbers[0]
         srp.regnum1 = regnum1
         if len(regnum2) > 0:
             srp.regnum2 = regnum2
@@ -78,6 +97,34 @@ def generate_pass_id():
 
 
 @login_required
+@system_rej_poj_api.route('/read/<passid>')
+def read_pass_id(passid):
+    """
+    Odczyt stanu identyfikatora
+    :param passid: private key w bazie
+    :return: {
+        "passid": "<private key rekordu>",
+        "pass_nr": <numer identyfikatora>,
+        "regnum1": "<numer rejestracyjny na piątek lub na wszystkie dni>",
+        "regnum2": "<numer rejestracyjny na sobotę>" | None,
+        "regnum3": "<numer rejestracyjny na niedzielę>" | None,
+    }
+    """
+    try:
+        srp = SRP.query.filter_by(id=passid).first()
+        res = dict()
+        res["passid"] = srp.id
+        res["pass_nr"] = srp.pass_nr
+        res["regnum1"] = srp.regnum1
+        res["regnum2"] = srp.regnum2
+        res["regnum3"] = srp.regnum3
+        return res, 200
+    except Exception as e:
+        current_app.logger.error(f"SRA update pass id: exception: {e}")
+        return f"{e}", 500
+
+
+@login_required
 @system_rej_poj_api.route('/update', methods=['POST'])
 def update_pass_id():
     """
@@ -86,8 +133,8 @@ def update_pass_id():
     Struktura danych:
         "passid": "<private key rekordu>",
         "regnum1": "<numer rejestracyjny na piątek lub na wszystkie dni>",
-        "regnum2": "" | None,
-        "regnum3": "" | None,
+        "regnum2": "<numer rejestracyjny na sobotę>" | None,
+        "regnum3": "<numer rejestracyjny na niedzielę>" | None,
     """
     try:
         pass_id = request.json['passid']
