@@ -1,11 +1,11 @@
 import io
 from flask import Blueprint, request, current_app, send_file
 from flask_login import login_required
-
 from sql import db, SRP, Zbory
 from qr import gen_qrcode
 from svglib.svglib import svg2rlg
 from reportlab.graphics import renderPDF
+from .generate import gen_1, gen_3
 
 system_rej_poj_api = Blueprint('srp', __name__, url_prefix='/srp')
 
@@ -114,13 +114,16 @@ def update_pass_id():
 def download_pass_id(pass_id):
     try:
         srp = SRP.query.filter_by(id=pass_id).first()
+        is_one_car = True
 
-        qr_src_data = f"{srp.id}-{srp.regnum1}"
+        qr_src_data = f"{srp.pass_nr}-{srp.regnum1}"
         if srp.regnum2 is not None and len(srp.regnum2) > 0:
+            is_one_car = False
             qr_src_data += f"-{srp.regnum2}"
         else:
             qr_src_data += f"-{srp.regnum1}"
         if srp.regnum3 is not None and len(srp.regnum3) > 0:
+            is_one_car = False
             qr_src_data += f"-{srp.regnum3}"
         else:
             qr_src_data += f"-{srp.regnum1}"
@@ -128,17 +131,22 @@ def download_pass_id(pass_id):
         qr_code = gen_qrcode(qr_src_data)
         pos = qr_code.find('<svg:svg')
         svg_qrcode = qr_code[pos:]
-        with open("parking-pass-id-template.svg", "r") as f:
-            template = f.read()
-            svg = template.replace("<!--[place-for-qrcode]-->", svg_qrcode)
-            fd_svg = io.BytesIO()
-            fd_svg.write(svg.encode('utf-8'))
-            fd_svg.seek(0)
-            drawing = svg2rlg(fd_svg)
-            fd_pdf = io.BytesIO()
-            renderPDF.drawToFile(drawing, fd_pdf)
-            fd_pdf.seek(0)
-            return send_file(fd_pdf, mimetype="application/pdf", as_attachment=True, download_name="identyfikator-parkingowy.pdf")
+
+        zbor = Zbory.query.filter_by(id=srp.zbor_id).first()
+
+        if is_one_car:
+            svg = gen_1(srp, svg_qrcode, zbor)
+        else:
+            svg = gen_3(srp, svg_qrcode, zbor)
+
+        fd_svg = io.BytesIO()
+        fd_svg.write(svg)
+        fd_svg.seek(0)
+        drawing = svg2rlg(fd_svg)
+        fd_pdf = io.BytesIO()
+        renderPDF.drawToFile(drawing, fd_pdf)
+        fd_pdf.seek(0)
+        return send_file(fd_pdf, mimetype="application/pdf", as_attachment=True, download_name="identyfikator-parkingowy.pdf")
 
     except Exception as e:
         current_app.logger.error(f"SRA download pass id: exception: {e}")
