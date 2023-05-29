@@ -19,7 +19,7 @@ def search_congregations(pattern):
     return [zbor.name for zbor in zbory]
 
 
-# @login_required
+@login_required
 @sra_api.route('/check_pilot_duplicate', methods=['POST'])
 def is_pilot_duplicate():
     """
@@ -221,7 +221,58 @@ def get_table():
         return f"{e}", 500
 
 
-# @login_required
+@login_required
+@sra_api.route('/write', methods=['POST'])
+def write_sra_registration():
+    """
+    Aktualizacja istniejącego zgłoszenia
+    """
+    try:
+        data = request.json
+
+        db.session.begin()
+        sra = SRA.query.filter_by(id=data['id']).first()
+        if len(data['info']) > 0:
+            sra.info = data['info']
+        else:
+            sra.info = None
+
+        # aktualizacja danych autokaru
+        bus = Bus.query.filter_by(id=sra.bus_id).first()
+        bus.type = data['bus']['type']
+        bus.distance = data['bus']['distance']
+        bus.parking_mode = data['bus']['parking_mode']
+        db.session.flush()
+
+        # pilot 1
+        dp1 = data['pilot1']
+        pilot = Pilot.query.filter_by(id=sra.pilot1_id).first()
+        pilot.fn = dp1['fn']
+        pilot.ln = dp1['ln']
+        pilot.email = dp1['email']
+        pilot.phone = f"{dp1['prefix']} {dp1['number']}"
+        db.session.flush()
+
+        # pilot 2 - update, insert, remove
+        dp2 = data['pilot2']
+        if dp2 is not None:
+            # update or insert
+            pass
+        else:
+            # remove
+            pass
+
+        # pilot 3 - update, insert, remove
+
+        db.session.commit()
+        return '', 200
+    except Exception as e:
+        db.session.rollback()
+        current_app.logger.error(f"SRA write exception: {e}")
+        return f"{e}", 500
+
+
+@login_required
 @sra_api.route('/export/xlsx')
 def buildXlsx():
     try:
