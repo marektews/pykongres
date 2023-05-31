@@ -8,6 +8,10 @@ from openpyxl import Workbook
 sra_api = Blueprint('sra', __name__, url_prefix='/sra')
 
 
+def _build_pilot_phone(prefix, number):
+    return f"{prefix} {number}"
+
+
 @sra_api.route('/search/congregations/<pattern>')
 def search_congregations(pattern):
     """
@@ -29,7 +33,7 @@ def is_pilot_duplicate():
     try:
         data = request.json
         _phone = f"{data['phone']['direct']} {data['phone']['number']}"
-        p = Pilot.query.filter_by(phone=_phone).first()
+        p = Pilot.query.filter_by(phone=_phone).one()
         if p is None:
             return "", 200
         else:
@@ -56,7 +60,7 @@ def submit_sra_registration():
         if len(reg_data['info']) > 0:
             sra.info = reg_data['info']
 
-        zbor = Zbory.query.filter_by(name=reg_data['congregation']).first()
+        zbor = Zbory.query.filter_by(name=reg_data['congregation']).one()
         sra.zbor_id = zbor.id
 
         bus_data = reg_data['bus']
@@ -66,7 +70,8 @@ def submit_sra_registration():
         sra.bus_id = bus.id
 
         pilot1_data = reg_data['pilot'][0]
-        pilot1 = Pilot(firstname=pilot1_data['firstname'], lastname=pilot1_data['lastname'], email=pilot1_data['email'], phone=f"{pilot1_data['phone']['direct']} {pilot1_data['phone']['number']}")
+        pilot1 = Pilot(firstname=pilot1_data['firstname'], lastname=pilot1_data['lastname'],
+                       email=pilot1_data['email'], phone=_build_pilot_phone(pilot1_data['phone']['direct'], pilot1_data['phone']['number']))
         db.session.add(pilot1)
         db.session.flush()
         sra.pilot1_id = pilot1.id
@@ -74,13 +79,15 @@ def submit_sra_registration():
         pilot2 = pilot3 = None
         if not reg_data['one_pilot']:
             pilot2_data = reg_data['pilot'][1]
-            pilot2 = Pilot(firstname=pilot2_data['firstname'], lastname=pilot2_data['lastname'], email=pilot2_data['email'], phone=f"{pilot2_data['phone']['direct']} {pilot2_data['phone']['number']}")
+            pilot2 = Pilot(firstname=pilot2_data['firstname'], lastname=pilot2_data['lastname'],
+                           email=pilot2_data['email'], phone=_build_pilot_phone(pilot2_data['phone']['direct'], pilot2_data['phone']['number']))
             db.session.add(pilot2)
             db.session.flush()
             sra.pilot2_id = pilot2.id
 
             pilot3_data = reg_data['pilot'][2]
-            pilot3 = Pilot(firstname=pilot3_data['firstname'], lastname=pilot3_data['lastname'], email=pilot3_data['email'], phone=f"{pilot3_data['phone']['direct']} {pilot3_data['phone']['number']}")
+            pilot3 = Pilot(firstname=pilot3_data['firstname'], lastname=pilot3_data['lastname'],
+                           email=pilot3_data['email'], phone=_build_pilot_phone(pilot3_data['phone']['direct'], pilot3_data['phone']['number']))
             db.session.add(pilot3)
             db.session.flush()
             sra.pilot3_id = pilot3.id
@@ -188,14 +195,14 @@ def get_table():
             item["info"] = sra.info
             item["timestamp"] = sra.timestamp.strftime("%a, %x %X")
 
-            zbor = Zbory.query.filter_by(id=sra.zbor_id).first()
+            zbor = Zbory.query.filter_by(id=sra.zbor_id).one()
             z = dict()
             z["name"] = zbor.name
             z["number"] = zbor.number
             z["lang"] = zbor.lang
             item["zbor"] = z
 
-            bus = Bus.query.filter_by(id=sra.bus_id).first()
+            bus = Bus.query.filter_by(id=sra.bus_id).one()
             b = dict()
             b["type"] = bus.type
             b["distance"] = bus.distance
@@ -206,7 +213,7 @@ def get_table():
             for i in range(3):
                 _id = ids[i]
                 if _id is not None:
-                    pilot = Pilot.query.filter_by(id=_id).first()
+                    pilot = Pilot.query.filter_by(id=_id).one()
                     p = dict()
                     p["fn"] = pilot.fn
                     p["ln"] = pilot.ln
@@ -231,14 +238,14 @@ def write_sra_registration():
         data = request.json
 
         db.session.begin()
-        sra = SRA.query.filter_by(id=data['id']).first()
+        sra = SRA.query.filter_by(id=data['id']).one()
         if len(data['info']) > 0:
             sra.info = data['info']
         else:
             sra.info = None
 
         # aktualizacja danych autokaru
-        bus = Bus.query.filter_by(id=sra.bus_id).first()
+        bus = Bus.query.filter_by(id=sra.bus_id).one()
         bus.type = data['bus']['type']
         bus.distance = data['bus']['distance']
         bus.parking_mode = data['bus']['parking_mode']
@@ -246,23 +253,24 @@ def write_sra_registration():
 
         # pilot 1
         dp1 = data['pilot1']
-        pilot = Pilot.query.filter_by(id=sra.pilot1_id).first()
+        pilot = Pilot.query.filter_by(id=sra.pilot1_id).one()
         pilot.fn = dp1['fn']
         pilot.ln = dp1['ln']
         pilot.email = dp1['email']
-        pilot.phone = f"{dp1['prefix']} {dp1['number']}"
+        pilot.phone = _build_pilot_phone(dp1['prefix'], dp1['number'])
         db.session.flush()
 
         # pilot 2 - update, insert, remove
-        dp2 = data['pilot2']
-        if dp2 is not None:
-            # update or insert
-            pass
+        if 'pilot2' in data:
+            sra.pilot2_id = _update_pilot(db, sra.pilot2_id, data['pilot2'])
         else:
-            # remove
-            pass
+            sra.pilot2_id = _remove_pilot(db, sra.pilot2_id)
 
         # pilot 3 - update, insert, remove
+        if 'pilot3' in data:
+            sra.pilot3_id = _update_pilot(db, sra.pilot3_id, data['pilot3'])
+        else:
+            sra.pilot3_id = _remove_pilot(db, sra.pilot3_id)
 
         db.session.commit()
         return '', 200
@@ -272,9 +280,37 @@ def write_sra_registration():
         return f"{e}", 500
 
 
+def _update_pilot(_db, pilot_id, pilot_data):
+    if pilot_id is not None:
+        # update
+        pilot = Pilot.query.filter_by(id=pilot_id).one()
+        pilot.fn = pilot_data['fn']
+        pilot.ln = pilot_data['ln']
+        pilot.email = pilot_data['email']
+        pilot.phone = _build_pilot_phone(pilot_data['prefix'], pilot_data['number'])
+        _db.session.flush()
+        return pilot.id
+    else:
+        # insert
+        pilot = Pilot(firstname=pilot_data['fn'], lastname=pilot_data['ln'],
+                      email=pilot_data['email'], phone=_build_pilot_phone(pilot_data['prefix'], pilot_data['number']))
+        _db.session.add(pilot)
+        _db.session.flush()
+        return pilot.id
+
+
+def _remove_pilot(_db, pilot_id) -> [None, int]:
+    if pilot_id is not None:
+        pilot = Pilot.query.filter_by(id=pilot_id).one()
+        _db.session.delete(pilot)
+        return None
+    else:
+        return pilot_id
+
+
 @login_required
 @sra_api.route('/export/xlsx')
-def buildXlsx():
+def build_xlsx():
     try:
         wb = Workbook()
         sheet = wb.active
@@ -296,21 +332,21 @@ def buildXlsx():
         for sra in all_sra:
             row = [index, sra.timestamp]
 
-            zbor = Zbory.query.filter_by(id=sra.zbor_id).first()
+            zbor = Zbory.query.filter_by(id=sra.zbor_id).one()
             row.append(zbor.lang)
             row.append(zbor.number)
             row.append(zbor.name)
 
-            bus = Bus.query.filter_by(id=sra.bus_id).first()
-            row.append(busType(bus.type))
-            row.append(busDistance(bus.distance))
-            row.append(parkingMode(bus.parking_mode))
+            bus = Bus.query.filter_by(id=sra.bus_id).one()
+            row.append(bus_type(bus.type))
+            row.append(bus_distance(bus.distance))
+            row.append(parking_mode(bus.parking_mode))
 
             ids = [sra.pilot1_id, sra.pilot2_id, sra.pilot3_id]
             for i in range(3):
                 _id = ids[i]
                 if _id is not None:
-                    pilot = Pilot.query.filter_by(id=_id).first()
+                    pilot = Pilot.query.filter_by(id=_id).one()
                     row.append(pilot.fn)
                     row.append(pilot.ln)
                     row.append(pilot.email)
@@ -344,7 +380,7 @@ def buildXlsx():
         return f"{e}", 500
 
 
-def busType(bt):
+def bus_type(bt):
     return {
         "minibus_9": "minibus 9",
         "minibus_30": "minibus 30",
@@ -355,14 +391,14 @@ def busType(bt):
     }[bt]
 
 
-def parkingMode(pm):
+def parking_mode(pm):
     return {
         "not_needed": "NIE",
         "needed": "TAK",
     }[pm]
 
 
-def busDistance(v):
+def bus_distance(v):
     return {
         "15km": "15km",
         "25km": "25km",
