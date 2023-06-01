@@ -31,7 +31,7 @@ def is_pilot_duplicate():
     try:
         data = request.json
         _phone = f"{data['phone']['direct']} {data['phone']['number']}"
-        p = Pilot.query.filter_by(phone=_phone).one()
+        p = Pilot.query.filter_by(phone=_phone).first()
         if p is None:
             return "", 200
         else:
