@@ -4,7 +4,7 @@ from sql import Zbory
 
 def _zbory_get_list():
     try:
-        zbory = Zbory.query.all()
+        zbory = Zbory.query.order_by(Zbory.lang, Zbory.name).all()
         res = []
         for z in zbory:
             tmp = dict()

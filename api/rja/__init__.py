@@ -1,11 +1,13 @@
 from flask import Blueprint
+from flask import request
 from flask_login import login_required
 from .GetTerminals import _get_terminals
 from .GetSectors import _get_sectors
-from .RJ_na_sektorze import _get_buses_of_sector
+from .GetSectorRJ import _get_buses_of_sector
 from .Zbory import _zbory_get_list
 from .GetBuses import _buses_get_list
 from .GetSRA import _sra_get_list
+from .SaveSectorRJ import _save_buses_of_sector
 
 rja_api = Blueprint('rja', __name__, url_prefix='/rja')
 
@@ -44,3 +46,9 @@ def sectors(tid):
 @rja_api.route('/buses/<sid>', methods=['GET'])
 def get_buses_of_sector(sid):
     return _get_buses_of_sector(sid)
+
+
+@login_required
+@rja_api.route('/buses/save', methods=['POST'])
+def save_buses_of_sector():
+    return _save_buses_of_sector(request.json)

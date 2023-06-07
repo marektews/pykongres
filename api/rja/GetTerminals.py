@@ -5,7 +5,7 @@ from sql import Terminale
 def _get_terminals():
     try:
         res = []
-        terminals = Terminale.query.filter_by(isBuffer=0).all()
+        terminals = Terminale.query.filter_by(is_buffer=0).all()
         for t in terminals:
             tmp = dict()
             tmp["tid"] = t.id

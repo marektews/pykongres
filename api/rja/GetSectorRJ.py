@@ -11,7 +11,6 @@ def _get_buses_of_sector(sid):
             tmp['id'] = item.id
             tmp['sra_id'] = item.sra_id
             tmp['sid'] = item.sektor_id
-            tmp['bufor_id'] = item.bufor_id
             tmp['d1'] = item.d1.strftime("%H:%M")
             tmp['d2'] = item.d2.strftime("%H:%M")
             tmp['d3'] = item.d3.strftime("%H:%M")

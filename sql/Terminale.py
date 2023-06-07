@@ -6,8 +6,10 @@ class Terminale(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    isBuffer = db.Column(db.Integer, nullable=False)
+    is_buffer = db.Column(db.Integer, nullable=False)
+    assigned_buffer = db.Column(db.Integer, nullable=True)
 
-    def __init__(self, name, is_buffer):
+    def __init__(self, name, is_buffer, assigned_buffer=None):
         self.name = name
-        self.isBuffer = is_buffer
+        self.is_buffer = is_buffer
+        self.assigned_buffer = assigned_buffer

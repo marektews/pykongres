@@ -9,7 +9,7 @@ def _terminal_full_info(tid):
         res["tid"] = t.id
         res["name"] = t.name
 
-        if t.isBuffer == 0:
+        if t.is_buffer == 0:
             res["buffer"] = False
             res["sectors"] = []
             sectors = Sektory.query.filter_by(tid=tid).all()
