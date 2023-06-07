@@ -5,7 +5,8 @@ from .buffer import buffer_api
 from .terminal import terminal_api
 from .monitoring import monitoring_api
 from .sra import sra_api
-from .srp import system_rej_poj_api
+from .srp import srp_api
+from .rja import rja_api
 
 api = Blueprint('api', __name__, url_prefix='/api')
 api.register_blueprint(login_api)
@@ -14,4 +15,5 @@ api.register_blueprint(buffer_api)
 api.register_blueprint(terminal_api)
 api.register_blueprint(monitoring_api)
 api.register_blueprint(sra_api)
-api.register_blueprint(system_rej_poj_api)
+api.register_blueprint(srp_api)
+api.register_blueprint(rja_api)

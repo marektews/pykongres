@@ -1,14 +1,15 @@
 from flask import Blueprint
-from cls import terminale
+from .List import _terminals_list
+from .FullInfo import _terminal_full_info
 
 terminal_api = Blueprint('terminal', __name__, url_prefix='/terminal')
 
 
-@terminal_api.route('/all')
+@terminal_api.route('/all', methods=['GET'])
 def terminals_list():
-    return terminale.root_list()
+    return _terminals_list()
 
 
-@terminal_api.route('/<tid>')
+@terminal_api.route('/<tid>', methods=['GET'])
 def terminal_full_info(tid):
-    return terminale.terminal(tid)
+    return _terminal_full_info(tid)

@@ -1,5 +1,5 @@
 from flask import Blueprint, current_app
-from cls import autokary, terminale, states
+# from cls import autokary, terminale, states
 
 sector_api = Blueprint('sector', __name__, url_prefix='/sector')
 
