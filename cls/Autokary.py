@@ -20,7 +20,7 @@ class Autokary:
 
     def all_list(self):
         res = []
-        active_day = current_app.config["active_day"]
+        active_day = current_app.config["ACTIVE_DAY"]
         for item in self._buses:
             o = dict()
             o['bid'] = item['bid']

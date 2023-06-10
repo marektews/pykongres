@@ -8,6 +8,7 @@ from .Find import _find_pass_id
 from .LoadAll import _load_all
 from .GetZbory import _zbory_all
 from .Delete import _srp_delete
+from .Check import _srp_check
 
 srp_api = Blueprint('srp', __name__, url_prefix='/srp')
 
@@ -119,3 +120,8 @@ def zbory_all():
 @srp_api.route('/delete/<srp_id>', methods=['GET'])
 def srp_delete(srp_id):
     return _srp_delete(srp_id)
+
+
+@srp_api.route('/check', methods=['GET'])
+def srp_check():
+    return _srp_check(request.args)

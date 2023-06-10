@@ -18,7 +18,7 @@ def sector_state(sid):
         o = dict()
         o["bid"] = bus["bid"]
         o["congregation"] = bus["congregation"]
-        o["schedule"] = bus[current_app.config["active_day"]]
+        o["schedule"] = bus[current_app.config["ACTIVE_DAY"]]
         o["real"] = bus_state
         res.append(o)
     return res

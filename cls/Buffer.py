@@ -28,7 +28,7 @@ class Buffer:
                 o = dict()
                 o["bid"] = item["bid"]
                 o["congregation"] = item["congregation"]
-                o["substitution"] = item[current_app.config["active_day"]]["substitution"]
+                o["substitution"] = item[current_app.config["ACTIVE_DAY"]]["substitution"]
                 res.append(o)
         return res
 

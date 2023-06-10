@@ -12,3 +12,6 @@ class SRP(db.Model):
     regnum2 = db.Column(db.String, nullable=True)
     regnum3 = db.Column(db.String, nullable=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    d1 = db.Column(db.DateTime, nullable=True)
+    d2 = db.Column(db.DateTime, nullable=True)
+    d3 = db.Column(db.DateTime, nullable=True)
