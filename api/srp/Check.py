@@ -34,7 +34,7 @@ def _srp_check(args):
         active_day = current_app.config['ACTIVE_DAY']
         if active_day == 'd1':
             if srp.d1 is not None:
-                return f"nie może wjechać - identyfikator już użyty: {srp.d1}", 403
+                return f"identyfikator już użyty: {srp.d1}", 403
             else:
                 srp.d1 = datetime.now()
                 db.session.commit()
@@ -42,7 +42,7 @@ def _srp_check(args):
 
         elif active_day == 'd2':
             if srp.d2 is not None:
-                return "nie może wjechać - identyfikator już użyty", 403
+                return f"identyfikator już użyty: {srp.d2}", 403
             else:
                 srp.d2 = datetime.now()
                 db.session.commit()
@@ -50,7 +50,7 @@ def _srp_check(args):
 
         elif active_day == 'd3':
             if srp.d3 is not None:
-                return "nie może wjechać - identyfikator już użyty", 403
+                return f"identyfikator już użyty: {srp.d3}", 403
             else:
                 srp.d3 = datetime.now()
                 db.session.commit()

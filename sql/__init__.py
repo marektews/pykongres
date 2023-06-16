@@ -6,6 +6,8 @@ from .Pilot import Pilot
 from .SRA import SRA
 from .SRP import SRP
 from .Users import Users
-from.Terminale import Terminale
+from .Terminale import Terminale
 from .Sektory import Sektory
 from .Rozklad import Rozklad
+from .Dzialy import Dzialy
+from .DzialyPK import DzialyPK

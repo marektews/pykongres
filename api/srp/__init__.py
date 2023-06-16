@@ -59,8 +59,8 @@ def read_pass_id(pass_id):
         "passid": "<private key rekordu>",
         "pass_nr": <numer identyfikatora>,
         "regnum1": "<numer rejestracyjny na piątek lub na wszystkie dni>",
-        "regnum2": "<numer rejestracyjny na sobotę>" | None,
-        "regnum3": "<numer rejestracyjny na niedzielę>" | None,
+        "regnum2": "<numer rejestracyjny na sobotę>",
+        "regnum3": "<numer rejestracyjny na niedzielę>",
     }
     """
     try:
@@ -69,8 +69,8 @@ def read_pass_id(pass_id):
         res["passid"] = srp.id
         res["pass_nr"] = srp.pass_nr
         res["regnum1"] = srp.regnum1
-        res["regnum2"] = srp.regnum2
-        res["regnum3"] = srp.regnum3
+        res["regnum2"] = srp.regnum2 if srp.regnum2 is not None else ''
+        res["regnum3"] = srp.regnum3 if srp.regnum3 is not None else ''
         return res, 200
     except Exception as e:
         current_app.logger.error(f"SRA update pass id: exception: {e}")
