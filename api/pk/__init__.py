@@ -7,6 +7,7 @@ from .Find import _pk_find
 from .Update import _pk_update
 from .Delete import _pk_delete
 from .Read import _pk_read
+from .LoadAll import _pk_load_all
 
 
 pk_api = Blueprint('pk', __name__, url_prefix='/pk')
@@ -53,3 +54,8 @@ def srp_delete(pk_id):
 def pk_read(pk_id):
     return _pk_read(pk_id)
 
+
+@login_required
+@pk_api.route('/all', methods=['GET'])
+def pk_load_all():
+    return _pk_load_all()
