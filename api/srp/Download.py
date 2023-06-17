@@ -1,3 +1,4 @@
+import io
 from flask import current_app, send_file
 from sql import SRP, Zbory
 from .generate import gen_1, gen_3
@@ -5,7 +6,6 @@ from qr import gen_qrcode
 from svglib.svglib import svg2rlg
 from svglib.fonts import register_font
 from reportlab.graphics import renderPDF
-import io
 
 
 def _download_pass_id(pass_id):

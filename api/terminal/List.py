@@ -9,7 +9,7 @@ def _terminals_list():
     """
     try:
         res = []
-        terminals = Terminale.query.order_by(Terminale.name).all()
+        terminals = Terminale.query.filter_by(is_buffer=0).order_by(Terminale.name).all()
         for t in terminals:
             tmp = dict()
             tmp["tid"] = t.id
