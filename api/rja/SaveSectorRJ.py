@@ -9,7 +9,9 @@ def _save_buses_of_sector(json):
         Rozklad.query.filter_by(sektor_id=json['sid']).delete()
         # wstawienie nowej listy
         for item in json['rja']:
-            rja = Rozklad(sra_id=item['sra_id'], sektor_id=item['sid'], d1=item['d1'], d2=item['d2'], d3=item['d3'])
+            rja = Rozklad(sra_id=item['sra_id'], sektor_id=item['sid'],
+                          d1=item['d1'], d2=item['d2'], d3=item['d3'],
+                          a1=item['a1'], a2=item['a2'], a3=item['a3'])
             db.session.add(rja)
         db.session.commit()
         return "", 200

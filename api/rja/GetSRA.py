@@ -11,6 +11,7 @@ def _sra_get_list():
             tmp['id'] = s.id
             tmp['zbor_id'] = s.zbor_id
             tmp['bus_id'] = s.bus_id
+            tmp['lp'] = s.lp
             res.append(tmp)
         return res, 200
     except Exception as e:
