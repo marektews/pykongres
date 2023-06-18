@@ -1,4 +1,4 @@
-from flask import current_app
+# from flask import current_app
 import xml.etree.ElementTree as ET
 ET.register_namespace("svg", "http://www.w3.org/2000/svg")
 
@@ -20,7 +20,7 @@ def gen_1(srp, svg_qrcode, zbor):
     elem.text = srp.regnum1
 
     # qrcode
-    current_app.logger.info(f"gen_1: qrcode: {svg_qrcode}")
+    # current_app.logger.info(f"gen_1: qrcode: {svg_qrcode}")
     layer = root.find(".//*[@id='layer1']")
     qrcode_tree = ET.fromstring(svg_qrcode)
     grp = ET.SubElement(layer, "svg:g")
@@ -65,6 +65,7 @@ def gen_3(srp, svg_qrcode, zbor):
     elem.text = srp.regnum3
 
     # qrcode
+    # current_app.logger.info(f"gen_3: qrcode: {svg_qrcode}")
     elem = root.find(".//*[@id='layer1']")
     qrcode_tree = ET.fromstring(svg_qrcode)
     grp = ET.SubElement(elem, "svg:g")
