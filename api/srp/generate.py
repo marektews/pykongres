@@ -1,3 +1,4 @@
+from flask import current_app
 import xml.etree.ElementTree as ET
 ET.register_namespace("svg", "http://www.w3.org/2000/svg")
 
@@ -19,14 +20,26 @@ def gen_1(srp, svg_qrcode, zbor):
     elem.text = srp.regnum1
 
     # qrcode
-    elem = root.find(".//*[@id='layer1']")
+    current_app.logger.info(f"gen_1: qrcode: {svg_qrcode}")
+    layer = root.find(".//*[@id='layer1']")
     qrcode_tree = ET.fromstring(svg_qrcode)
-    grp = ET.SubElement(elem, "svg:g")
+    grp = ET.SubElement(layer, "svg:g")
     grp.set("id", "g1864")
     grp.set("style", "stroke-width:1.35465")
-    grp.set("transform", "translate(86.4 15.5) scale(1.02 1.02)")
     grp.append(qrcode_tree)
-    elem.append(grp)
+
+    # pozycjonowanie
+    margin = 5
+    parent_elem = root.find(".//*[@id='qrCode']")
+    x = float(parent_elem.get("x")) + margin
+    y = float(parent_elem.get("y")) + margin
+    pw = float(parent_elem.get("width"))
+    ph = float(parent_elem.get("height"))
+    width = pw - 2*margin
+    height = ph - 2*margin
+    s = min((width/pw), (height/ph))
+    grp.set("transform", f"translate({x} {y}) scale({s} {s})")
+    # current_app.logger.info(f"gen_1: qrcode group: translate({x} {y}) scale({s} {s})")
 
     return ET.tostring(root)
 
@@ -57,8 +70,19 @@ def gen_3(srp, svg_qrcode, zbor):
     grp = ET.SubElement(elem, "svg:g")
     grp.set("id", "g1864")
     grp.set("style", "stroke-width:1.35465")
-    grp.set("transform", "translate(86.4 15.5) scale(1.02 1.02)")
     grp.append(qrcode_tree)
-    elem.append(grp)
+
+    # pozycjonowanie
+    margin = 5
+    parent_elem = root.find(".//*[@id='qrCode']")
+    x = float(parent_elem.get("x")) + margin
+    y = float(parent_elem.get("y")) + margin
+    pw = float(parent_elem.get("width"))
+    ph = float(parent_elem.get("height"))
+    width = pw - 2*margin
+    height = ph - 2*margin
+    s = min((width/pw), (height/ph))
+    grp.set("transform", f"translate({x} {y}) scale({s} {s})")
+    # current_app.logger.info(f"gen_3: qrcode group: translate({x} {y}) scale({s} {s})")
 
     return ET.tostring(root)
