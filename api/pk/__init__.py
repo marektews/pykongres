@@ -1,4 +1,4 @@
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request
 from flask_login import login_required
 from .Hints import _pk_hints_all
 from .Login import _pk_login
@@ -8,6 +8,7 @@ from .Update import _pk_update
 from .Delete import _pk_delete
 from .Read import _pk_read
 from .LoadAll import _pk_load_all
+from .Download import _pk_download
 
 
 pk_api = Blueprint('pk', __name__, url_prefix='/pk')
@@ -59,3 +60,9 @@ def pk_read(pk_id):
 @pk_api.route('/all', methods=['GET'])
 def pk_load_all():
     return _pk_load_all()
+
+
+@login_required
+@pk_api.route('/download/<pk_id>', methods=['GET'])
+def pk_download(pk_id):
+    return _pk_download(pk_id)
