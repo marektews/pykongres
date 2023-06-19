@@ -19,7 +19,7 @@ def _ia_download(sra_id):
         order = [item.sra_id for item in all_departures]
         tura = order.index(rja.sra_id) + 1
 
-        svg = gen(congregation, rja, sector, terminal, str(tura))
+        svg = gen(sra, congregation, rja, sector, terminal, str(tura))
 
         register_font("Lato-Bold", "Lato-Bold.ttf")
         fd_svg = io.BytesIO()

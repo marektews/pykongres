@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 ET.register_namespace("svg", "http://www.w3.org/2000/svg")
 
 
-def gen(congregation, rja, sector, terminal, tura):
+def gen(sra, congregation, rja, sector, terminal, tura):
     tree = ET.parse("identyfikator-autokaru-template.svg")
     root = tree.getroot()
 
@@ -20,7 +20,10 @@ def gen(congregation, rja, sector, terminal, tura):
 
     # nazwa zboru
     elem = root.find(".//*[@id='congregation']")
-    elem.text = congregation.name
+    if sra.lp is not None:
+        elem.text = f"{congregation.name} {sra.lp}"
+    else:
+        elem.text = congregation.name
 
     # podstawienia
     elem = root.find(".//*[@id='arrive1']")
