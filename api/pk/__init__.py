@@ -9,7 +9,7 @@ from .Delete import _pk_delete
 from .Read import _pk_read
 from .LoadAll import _pk_load_all
 from .Download import _pk_download
-
+from .Check import _pk_check
 
 pk_api = Blueprint('pk', __name__, url_prefix='/pk')
 
@@ -66,3 +66,9 @@ def pk_load_all():
 @pk_api.route('/download/<pk_id>', methods=['GET'])
 def pk_download(pk_id):
     return _pk_download(pk_id)
+
+
+@login_required
+@pk_api.route('/check', methods=['GET'])
+def pk_check():
+    return _pk_check(request.args)
