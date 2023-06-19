@@ -7,6 +7,7 @@ class Rozklad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sra_id = db.Column(db.Integer, nullable=False)
     sektor_id = db.Column(db.Integer, nullable=False)
+    tura = db.Column(db.Integer, nullable=False)
     a1 = db.Column(db.Time, nullable=True)
     a2 = db.Column(db.Time, nullable=True)
     a3 = db.Column(db.Time, nullable=True)
@@ -14,9 +15,10 @@ class Rozklad(db.Model):
     d2 = db.Column(db.Time, nullable=True)
     d3 = db.Column(db.Time, nullable=True)
 
-    def __init__(self, sra_id, sektor_id, d1, d2, d3, a1, a2, a3):
+    def __init__(self, sra_id, sektor_id, tura, d1, d2, d3, a1, a2, a3):
         self.sra_id = sra_id
         self.sektor_id = sektor_id
+        self.tura = tura
         self.d1 = d1
         self.d2 = d2
         self.d3 = d3
