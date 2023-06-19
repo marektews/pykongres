@@ -13,7 +13,7 @@ def _pk_download(pk_id):
         pk = DzialyPK.query.filter_by(id=pk_id).one()
         is_one_car = True
 
-        qr_src_data = f"{pk.pass_nr}-{pk.regnum1}"
+        qr_src_data = f"pk-{pk.pass_nr}-{pk.regnum1}"
         if pk.regnum2 is not None and len(pk.regnum2) > 0:
             is_one_car = False
             qr_src_data += f"-{pk.regnum2}"
