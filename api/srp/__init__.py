@@ -23,7 +23,7 @@ def is_free_pass_id(congregation):
     try:
         _zbor = Zbory.query.filter_by(name=congregation).first()
         c = SRP.query.filter_by(zbor_id=_zbor.id).count()
-        if c < 4:
+        if c < _zbor.plimit:
             return "", 200
         else:
             return "", 404

@@ -8,3 +8,5 @@ class Zbory(db.Model):
     number = db.Column(db.Integer, unique=True, nullable=False)
     name = db.Column(db.String, unique=True, nullable=False)
     lang = db.Column(db.String, unique=False, nullable=False)
+    plimit = db.Column(db.Integer, nullable=False)
+
