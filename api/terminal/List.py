@@ -14,7 +14,6 @@ def _terminals_list():
             tmp = dict()
             tmp["tid"] = t.id
             tmp["name"] = t.name
-            tmp["buffer"] = True if t.is_buffer == 1 else False
             res.append(tmp)
         return res, 200
     except Exception as e:
