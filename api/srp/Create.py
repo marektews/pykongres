@@ -13,7 +13,7 @@ def _create_pass_id(json):
         zbor = Zbory.query.filter_by(name=congregation).one()
 
         # poszukiwanie nieużywanego jeszcze numeru identyfikatora
-        used_numbers = [1, 2, 3, 4]
+        used_numbers = [n+1 for n in range(zbor.plimit)]
         tmp = SRP.query.filter_by(zbor_id=zbor.id).all()
         for item in tmp:
             used_numbers.remove(item.pass_nr)
@@ -40,12 +40,12 @@ def _create_pass_id(json):
 
         db.session.add(srp)
         db.session.commit()
-        current_app.logger.info(f"SRA generate pass id finished")
+        current_app.logger.info(f"SRP generate pass id finished")
 
         res = dict()
         res["passID"] = srp.id
         return res, 200
     except Exception as e:
-        current_app.logger.error(f"SRA generate pass id: exception: {e}")
+        current_app.logger.error(f"SRP generate pass id: exception: {e}")
         db.session.rollback()
         return f"{e}", 500
