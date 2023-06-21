@@ -27,19 +27,19 @@ def gen(sra, congregation, rja, sector, terminal, tura):
 
     # podstawienia
     elem = root.find(".//*[@id='arrive1']")
-    elem.text = rja.a1.strftime("%H:%M")
+    elem.text = rja.a1.strftime("%H:%M") if rja.a1 is not None else ""
     elem = root.find(".//*[@id='arrive2']")
-    elem.text = rja.a2.strftime("%H:%M")
+    elem.text = rja.a2.strftime("%H:%M") if rja.a2 is not None else ""
     elem = root.find(".//*[@id='arrive3']")
-    elem.text = rja.a3.strftime("%H:%M")
+    elem.text = rja.a3.strftime("%H:%M") if rja.a3 is not None else ""
 
     # odjazdy
     elem = root.find(".//*[@id='departure1']")
-    elem.text = rja.d1.strftime("%H:%M")
+    elem.text = rja.d1.strftime("%H:%M") if rja.d1 is not None else ""
     elem = root.find(".//*[@id='departure2']")
-    elem.text = rja.d2.strftime("%H:%M")
+    elem.text = rja.d2.strftime("%H:%M") if rja.d2 is not None else ""
     elem = root.find(".//*[@id='departure3']")
-    elem.text = rja.d3.strftime("%H:%M")
+    elem.text = rja.d3.strftime("%H:%M") if rja.d3 is not None else ""
 
     return ET.tostring(root)
 

@@ -15,11 +15,7 @@ def _ia_download(sra_id):
         sector = Sektory.query.filter_by(id=rja.sektor_id).one()
         terminal = Terminale.query.filter_by(id=sector.tid).one()
 
-        all_departures = Rozklad.query.filter_by(sektor_id=rja.sektor_id).order_by(Rozklad.d1).all()
-        order = [item.sra_id for item in all_departures]
-        tura = order.index(rja.sra_id) + 1
-
-        svg = gen(sra, congregation, rja, sector, terminal, str(tura))
+        svg = gen(sra, congregation, rja, sector, terminal, str(rja.tura))
 
         register_font("Lato-Bold", "Lato-Bold.ttf")
         fd_svg = io.BytesIO()
