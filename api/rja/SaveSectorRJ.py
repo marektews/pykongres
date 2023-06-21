@@ -1,5 +1,5 @@
 from flask import current_app
-from sql import db, Rozklad
+from sql import db, Rozklad, SRA
 
 
 def _save_buses_of_sector(json):
@@ -21,6 +21,9 @@ def _save_buses_of_sector(json):
                           a2=item['a2'] if len(item['a2']) > 0 else None,
                           a3=item['a3'] if len(item['a3']) > 0 else None)
             db.session.add(rja)
+            # aktualizacja flagi anulowania autokaru
+            sra = SRA.query.filter_by(id=rja.sra_id).one()
+            sra.canceled = 1 if item['canceled'] else 0
         db.session.commit()
         return "", 200
     except Exception as e:

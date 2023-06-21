@@ -1,5 +1,5 @@
 from flask import current_app
-from sql import Rozklad
+from sql import Rozklad, SRA
 
 
 def _get_buses_of_sector(sid):
@@ -18,6 +18,10 @@ def _get_buses_of_sector(sid):
             tmp['a1'] = item.a1.strftime("%H:%M") if item.a1 is not None else ''
             tmp['a2'] = item.a2.strftime("%H:%M") if item.a2 is not None else ''
             tmp['a3'] = item.a3.strftime("%H:%M") if item.a3 is not None else ''
+
+            sra = SRA.query.filter_by(id=item.sra_id).one()
+            tmp['canceled'] = False if sra.canceled == 0 else True
+
             res.append(tmp)
         return res, 200
     except Exception as e:

@@ -12,6 +12,7 @@ def _sra_get_list():
             tmp['zbor_id'] = s.zbor_id
             tmp['bus_id'] = s.bus_id
             tmp['lp'] = s.lp
+            tmp['canceled'] = False if s.canceled == 0 else True
             res.append(tmp)
         return res, 200
     except Exception as e:
