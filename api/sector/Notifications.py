@@ -2,7 +2,7 @@ from flask import current_app
 from sql import db, SOA
 
 
-def _buffer_notification(rja_id, status):
+def _sector_notification(rja_id, status):
     try:
         db.session.begin()
         soa = SOA(rja_id=rja_id, status=status)
@@ -17,5 +17,5 @@ def _buffer_notification(rja_id, status):
         return ntf, 200
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"Buffer: '{status}' notification: id={rja_id}, exception='{e}'")
+        current_app.logger.error(f"Sector: '{status}' notification: id={rja_id}, exception='{e}'")
         return f"{e}", 500

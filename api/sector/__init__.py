@@ -1,32 +1,37 @@
 from flask import Blueprint
 from .Initialize import _sector_initialize
 from .Schedule import _sector_schedule
+from .States import _sector_states
+from .Notifications import _sector_notification
 
 sector_api = Blueprint('sector', __name__, url_prefix='/sector')
 
 
-@sector_api.route("/<bid>")
-def sector_initialize(bid):
-    return _sector_initialize(bid)
+@sector_api.route("/<sid>")
+def sector_initialize(sid):
+    return _sector_initialize(sid)
 
 
-@sector_api.route("/<sid>/state")
-def sector_state(sid):
-    # buses = autokary.all_from_sector(sid)
-    # res = []
-    # for bus in buses:
-    #     bus_state = states.find_by_bid(bus["bid"])
-    #     o = dict()
-    #     o["bid"] = bus["bid"]
-    #     o["congregation"] = bus["congregation"]
-    #     o["schedule"] = bus[current_app.config["ACTIVE_DAY"]]
-    #     o["real"] = bus_state
-    #     res.append(o)
-    # return res
-    res = []
-    return res
+@sector_api.route("/<sid>/states")
+def sector_states(sid):
+    return _sector_states(sid)
 
 
 @sector_api.route("/<sid>/schedule")
 def sector_schedule(sid):
     return _sector_schedule(sid)
+
+
+@sector_api.route('/notify/sendtosector/<rja_id>', methods=['GET'])
+def sector_notification_sendtosector(rja_id):
+    return _sector_notification(rja_id, 'send-to-sector')
+
+
+@sector_api.route('/notify/onsector/<rja_id>', methods=['GET'])
+def sector_notification_onsector(rja_id):
+    return _sector_notification(rja_id, 'on-sector')
+
+
+@sector_api.route('/notify/ontheroad/<rja_id>', methods=['GET'])
+def sector_notification_ontheroad(rja_id):
+    return _sector_notification(rja_id, 'on-the-road')
