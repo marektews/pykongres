@@ -6,7 +6,7 @@ from api import api, login_manager
 from sql import db
 from mail import mail
 from qr import qrc
-from mqtt import init_mqtt
+# from mqtt import init_mqtt
 
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
@@ -22,9 +22,9 @@ locale.setlocale(locale.LC_ALL, 'pl_PL')
 if __name__ == '__main__':
     """ Start w debuggerze """
     app.logger.info("Start application ...")
-    th = threading.current_thread()
-    print(f"{th.name} - {th.ident} - {th.native_id}")
-    init_mqtt(app, False)
+    # th = threading.current_thread()
+    # print(f"{th.name} - {th.ident} - {th.native_id}")
+    # init_mqtt(app, False)
     app.run(debug=True)
 
 if __name__ != '__main__':
@@ -33,4 +33,4 @@ if __name__ != '__main__':
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
     app.logger.info("### Start application ... ###")
-    init_mqtt(app, True)
+    # init_mqtt(app, True)
