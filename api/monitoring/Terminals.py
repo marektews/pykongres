@@ -1,6 +1,6 @@
 from flask import current_app
 from sql import Terminale, Sektory, SRA, Rozklad
-from .helpers import _arrive_by_day, _departure_by_day
+from .helpers import _arrive_today, _arrive_by_day, _departure_by_day
 
 
 def _terminals_list():
@@ -21,6 +21,9 @@ def _terminals_list():
                 _rja = []
                 all_rja = Rozklad.query.filter_by(sektor_id=s.id).order_by(Rozklad.tura).all()
                 for rja in all_rja:
+                    if not _arrive_today(rja):
+                        continue
+
                     _tmp2 = dict()
                     _tmp2['id'] = rja.id
                     _tmp2['ident'] = s.name.replace('x', str(rja.tura))
