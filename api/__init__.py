@@ -1,4 +1,5 @@
 from flask import Blueprint
+from .test import test_api
 from .login import login_api, login_manager
 from .sector import sector_api
 from .buffer import buffer_api
@@ -12,6 +13,7 @@ from .ia import ia_api
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
+api.register_blueprint(test_api)
 api.register_blueprint(login_api)
 api.register_blueprint(sector_api)
 api.register_blueprint(buffer_api)
