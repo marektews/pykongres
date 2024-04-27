@@ -25,7 +25,7 @@ if __name__ == '__main__':
     # th = threading.current_thread()
     # print(f"{th.name} - {th.ident} - {th.native_id}")
     # init_mqtt(app, False)
-    app.run(debug=True)
+    app.run(debug=True, port=8000)
 
 if __name__ != '__main__':
     """ Start w środowisku produkcyjnym """
