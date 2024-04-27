@@ -13,9 +13,10 @@ class MQTT:
 
         if production:
             # production mode
-            self.broker = '127.0.0.1'
-            self.port = 1883
-            self.username = None
+            self.broker = app.config['MQTT_BROKER_HOST']
+            self.port = app.config['MQTT_BROKER_PORT']
+            self.username = app.config['MQTT_BROKER_USERNAME']
+            self.password = app.config['MQTT_BROKER_PASSWORD']
         else:
             # developer mode
             self.broker = 'kw23.ddns.net'
