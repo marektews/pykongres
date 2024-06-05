@@ -99,7 +99,7 @@ def _submit_sra(data):
                 Data wysłania: {sra.timestamp}
             """
         sendEmail(
-            recipients=[confirm_email, 'rafal_jankowski@o2.pl', 'lukasglewicz@gmail.com', 'marek.tews@gmail.com'],
+            recipients=[confirm_email, 'rafal_jankowski@o2.pl', 'marek.tews@gmail.com'],
             subject="Potwierdzenie zgłoszenia autokaru",
             body=mail_body
         )
