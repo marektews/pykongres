@@ -4,7 +4,7 @@ ET.register_namespace("svg", "http://www.w3.org/2000/svg")
 
 
 def gen_1(srp, svg_qrcode, zbor):
-    tree = ET.parse("parking-pass-id-template-1.svg")
+    tree = ET.parse("parking-lodowiska-pass-id-template-1.svg")
     root = tree.getroot()
 
     # nr identyfikatora
@@ -45,7 +45,7 @@ def gen_1(srp, svg_qrcode, zbor):
 
 
 def gen_3(srp, svg_qrcode, zbor):
-    tree = ET.parse("parking-pass-id-template-3.svg")
+    tree = ET.parse("parking-lodowiska-pass-id-template-3.svg")
     root = tree.getroot()
 
     # nr identyfikatora
