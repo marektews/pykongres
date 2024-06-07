@@ -80,4 +80,4 @@ def __send_message(service, destination, obj, body, attachments=None):
 def sendEmail(recipients, subject, body):
     __mail = gmail_authenticate()
     for __to in recipients:
-        return __send_message(__mail, __to, subject, body)
+        __send_message(__mail, __to, subject, body)
