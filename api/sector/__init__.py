@@ -27,6 +27,11 @@ def sector_notification_sendtosector(rja_id):
     return _sector_notification(rja_id, 'send-to-sector')
 
 
+@sector_api.route('/notify/readytoleave/<rja_id>', methods=['GET'])
+def sector_notification_readytoleave(rja_id):
+    return _sector_notification(rja_id, 'ready-to-leave')
+
+
 @sector_api.route('/notify/onsector/<rja_id>', methods=['GET'])
 def sector_notification_onsector(rja_id):
     return _sector_notification(rja_id, 'on-sector')
