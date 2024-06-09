@@ -6,7 +6,7 @@ from time import sleep
 
 class MQTT:
     client_id = f"pykongres-{randint(0, 1000)}"
-    topic = "kw23/events"
+    topic = "krw/events"
 
     def __init__(self, app, production):
         self.app = app
@@ -19,10 +19,10 @@ class MQTT:
             self.password = app.config['MQTT_BROKER_PASSWORD']
         else:
             # developer mode
-            self.broker = 'kw23.ddns.net'
-            self.port = 8883
-            self.username = 'api'
-            self.password = 'matuzalem'
+            self.broker = 'krw.ddns.net'
+            self.port = 1883
+            self.username = None
+            self.password = None
 
         self.client = mqtt_client.Client(self.client_id, userdata=self, transport="tcp", protocol=mqtt_client.MQTTv311)
         # self.client.on_log = self.on_log

@@ -1,5 +1,6 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from flask_login import login_required
+from sql import Dzialy, DzialyPK
 from .Hints import _pk_hints_all
 from .Login import _pk_login
 from .Create import _pk_create
@@ -12,6 +13,25 @@ from .Download import _pk_download
 from .Check import _pk_check
 
 pk_api = Blueprint('pk', __name__, url_prefix='/pk')
+
+
+@login_required
+@pk_api.route('/isfreepass/<dzial>')
+def is_free_pass_id(dzial):
+    """
+    Sprawdzanie czy jest jeszcze wolny identyfikator do wykorzystania
+    :return: HTTP codes: 200 | 404
+    """
+    try:
+        __dzial = Dzialy.query.filter_by(name=dzial).first()
+        c = DzialyPK.query.filter_by(dzial_id=__dzial.id).count()
+        if c < __dzial.plimit:
+            return "", 200
+        else:
+            return "", 404
+    except Exception as e:
+        current_app.logger.error(f"PK check free pass id: exception: {e}")
+        return f"{e}", 500
 
 
 @login_required

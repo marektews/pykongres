@@ -8,3 +8,4 @@ class Dzialy(db.Model):
     lang = db.Column(db.String, unique=False, nullable=False)
     name = db.Column(db.String, unique=False, nullable=False)
     password = db.Column(db.String, unique=False, nullable=False)
+    plimit = db.Column(db.Integer, nullable=False)
