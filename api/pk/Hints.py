@@ -11,6 +11,7 @@ def _pk_hints_all():
             tmp['id'] = d.id
             tmp['lang'] = d.lang
             tmp['name'] = d.name
+            tmp['tura'] = d.tura
             res.append(tmp)
         return res, 200
 

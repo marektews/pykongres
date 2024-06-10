@@ -16,14 +16,14 @@ pk_api = Blueprint('pk', __name__, url_prefix='/pk')
 
 
 @login_required
-@pk_api.route('/isfreepass/<dzial>')
-def is_free_pass_id(dzial):
+@pk_api.route('/isfreepass/<dzial>/<tura>')
+def is_free_pass_id(dzial, tura):
     """
     Sprawdzanie czy jest jeszcze wolny identyfikator do wykorzystania
     :return: HTTP codes: 200 | 404
     """
     try:
-        __dzial = Dzialy.query.filter_by(name=dzial).first()
+        __dzial = Dzialy.query.filter_by(name=dzial, tura=tura).first()
         c = DzialyPK.query.filter_by(dzial_id=__dzial.id).count()
         if c < __dzial.plimit:
             return "", 200

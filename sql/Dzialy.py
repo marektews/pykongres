@@ -9,3 +9,4 @@ class Dzialy(db.Model):
     name = db.Column(db.String, unique=False, nullable=False)
     password = db.Column(db.String, unique=False, nullable=False)
     plimit = db.Column(db.Integer, nullable=False)
+    tura = db.Column(db.Integer, nullable=False)
