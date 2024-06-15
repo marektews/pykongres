@@ -98,8 +98,10 @@ def _submit_sra(data):
 
                 Data wysłania: {sra.timestamp}
             """
+        recipients = current_app.config['MAILING_GROUP']
+        recipients.append(confirm_email)
         sendEmail(
-            recipients=[confirm_email, 'rafal_jankowski@o2.pl', 'marek.tews@gmail.com'],
+            recipients=recipients,
             subject="Potwierdzenie zgłoszenia autokaru",
             body=mail_body
         )
