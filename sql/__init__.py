@@ -12,3 +12,5 @@ from .Sektory import Sektory
 from .Rozklad import Rozklad
 from .Dzialy import Dzialy
 from .DzialyPK import DzialyPK
+from .Arrivals import Arrivals
+from .Czw import Czw

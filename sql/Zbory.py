@@ -9,4 +9,5 @@ class Zbory(db.Model):
     name = db.Column(db.String, unique=True, nullable=False)
     lang = db.Column(db.String, unique=False, nullable=False)
     plimit = db.Column(db.Integer, nullable=False)
+    tura = db.Column(db.Integer, nullable=False)
 
