@@ -6,7 +6,6 @@ class Czw(db.Model):
     __tablename__ = "Czw"
 
     id = db.Column(db.Integer, primary_key=True)
-    driver = db.Column(db.String, nullable=False)
     nr_rej = db.Column(db.String, nullable=False)
     phone = db.Column(db.String, nullable=False)
     nr_ident = db.Column(db.Integer, nullable=False)

@@ -47,7 +47,6 @@ def issuing():
             return {"error": f"zbor {zbor_name} not found"}, 404
 
         czw = Czw()
-        czw.driver = request.json['driver']
         czw.nr_rej = request.json['nr_rej']
         czw.phone = request.json['phone']
         czw.nr_ident = request.json['nr_ident']
@@ -82,7 +81,6 @@ def search():
             return request.json, 205
 
         return {
-            "driver": czw.driver,
             "phone": czw.phone,
             "nr_rej": czw.nr_rej,
             "nr_ident": czw.nr_ident,
