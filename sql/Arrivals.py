@@ -1,4 +1,5 @@
 from .dbBase import db
+from datetime import datetime
 
 
 class Arrivals(db.Model):
@@ -11,4 +12,5 @@ class Arrivals(db.Model):
 
     def __init__(self, bus_id, arrived):
         self.bus_id = bus_id
+        self.datetime = datetime.utcnow()
         self.arrived = arrived

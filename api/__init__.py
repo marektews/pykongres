@@ -11,7 +11,7 @@ from .rja import rja_api
 from .pk import pk_api
 from .ia import ia_api
 from .czw import czw_api
-# from .arrivals import arrivals_api
+from .arrivals import arrivals_api
 
 api = Blueprint('api', __name__, url_prefix='/api')
 
@@ -27,4 +27,4 @@ api.register_blueprint(rja_api)
 api.register_blueprint(pk_api)
 api.register_blueprint(ia_api)
 api.register_blueprint(czw_api)
-# api.register_blueprint(arrivals_api)
+api.register_blueprint(arrivals_api)
