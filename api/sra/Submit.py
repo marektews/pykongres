@@ -98,7 +98,11 @@ def _submit_sra(data):
 
                 Data wysłania: {sra.timestamp}
             """
-        recipients = current_app.config['MAILING_GROUP']
+
+        recipients = current_app.config['MAILING_GROUP'].copy()
+        # musi byc deep copy za pomocą funkcji array.copy()
+        # w przeciwnym wypadku rozszerza current_app.config['MAILING_GROUP'] o nowe adresy
+
         recipients.append(confirm_email)
         sendEmail(
             recipients=recipients,
