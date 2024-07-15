@@ -1,5 +1,5 @@
 from flask import current_app
-from sql import Terminale, Sektory, SRA, Rozklad
+from sql import Terminale, Sektory, SRA, Rozklad, Zbory
 from .helpers import _arrive_today, _arrive_by_day, _departure_by_day
 
 
@@ -15,8 +15,11 @@ def _terminals_list():
             sectors = Sektory.query.filter_by(tid=t.id).order_by(Sektory.id).all()
             for s in sectors:
                 _tmp = dict()
-                _tmp["name"] = s.name.replace('x','')
+                _tmp["name"] = s.name
                 _sektory.append(_tmp)
+
+                sl = s.name.split()
+                sid = sl[1]
 
                 _rja = []
                 all_rja = Rozklad.query.filter_by(sektor_id=s.id).order_by(Rozklad.tura).all()
@@ -24,9 +27,13 @@ def _terminals_list():
                     if not _arrive_today(rja):
                         continue
 
+                    sra = SRA.query.filter_by(id=rja.sra_id).first()
+                    zbor = Zbory.query.filter_by(id=sra.zbor_id).first()
+
                     _tmp2 = dict()
                     _tmp2['id'] = rja.id
-                    _tmp2['ident'] = s.name.replace('x', str(rja.tura))
+                    _tmp2['ident'] = f"{t.name[0]}{sid}{str(rja.tura)}"
+                    _tmp2['name'] = zbor.name
                     _tmp2['tura'] = rja.tura
                     _tmp2['arrive'] = _arrive_by_day(rja)
                     _tmp2['departure'] = _departure_by_day(rja)
