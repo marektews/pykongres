@@ -16,7 +16,8 @@ def gen(sra, congregation, rja, sector, terminal, tura):
 
     # sektor + tura
     elem = root.find(".//*[@id='identyfikator']")
-    elem.text = sector.name.replace('x', tura)
+    sl = sector.name.split()
+    elem.text = f"{terminal.name[0]}{sl[1]}{tura}"
 
     # nazwa zboru
     elem = root.find(".//*[@id='congregation']")
@@ -45,5 +46,5 @@ def gen(sra, congregation, rja, sector, terminal, tura):
 
 
 def _sector_number(name):
-    i = name.index('x')
-    return name[i+1:]
+    sl = name.split()
+    return sl[1]
