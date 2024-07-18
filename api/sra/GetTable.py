@@ -21,6 +21,7 @@ def _get_table():
 
             bus = Bus.query.filter_by(id=sra.bus_id).one()
             b = dict()
+            b["lp"] = sra.lp
             b["type"] = bus.type
             b["distance"] = bus.distance
             b["parking_mode"] = bus.parking_mode

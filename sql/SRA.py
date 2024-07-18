@@ -8,7 +8,7 @@ class SRA(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     zbor_id = db.Column(db.Integer, db.ForeignKey('Zbory.id'))
     bus_id = db.Column(db.Integer, db.ForeignKey('Bus.id'))
-    lp = db.Column(db.Integer, nullable=True)                   # liczba porządkowa w ramach zboru
+    lp = db.Column(db.Integer, nullable=True)                   # liczba porządkowa w ramach zboru (wpisywane ręcznie)
     canceled = db.Column(db.Integer, nullable=False, default=0)
     pilot1_id = db.Column(db.Integer, db.ForeignKey('Pilot.id'))
     pilot2_id = db.Column(db.Integer, db.ForeignKey('Pilot.id'), nullable=True)
