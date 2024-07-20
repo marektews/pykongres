@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+from api.createShortBusID import createShortBusID
 ET.register_namespace("svg", "http://www.w3.org/2000/svg")
 
 
@@ -17,7 +18,7 @@ def gen(sra, congregation, rja, sector, terminal, tura):
     # sektor + tura
     elem = root.find(".//*[@id='identyfikator']")
     sl = sector.name.split()
-    elem.text = f"{terminal.name[0]}{sl[1]}{tura}"
+    elem.text = createShortBusID(letter=terminal.name[0], sektor=sl[1], tura=tura)
 
     # nazwa zboru
     elem = root.find(".//*[@id='congregation']")

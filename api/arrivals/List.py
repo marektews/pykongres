@@ -1,5 +1,6 @@
 from flask import current_app
 from sql import Arrivals, Bus, Zbory, SRA, Rozklad, Sektory, Terminale
+from api.createShortBusID import createShortBusID
 
 
 def _arrivals_list():
@@ -16,13 +17,20 @@ def _arrivals_list():
                     .filter_by(id=sra.zbor_id) \
                     .first()
 
+                if sra.lp is not None:
+                    zborName = f"{zbor.name} {sra.lp}"
+                else:
+                    zborName = zbor.name
+
                 r = Rozklad.query.filter_by(sra_id=sra.id).first()
                 if r is not None:
                     sektor = Sektory.query.filter_by(id=r.sektor_id).first()
                     terminal = Terminale.query.filter_by(id=sektor.tid).first()
-                    name = f"{terminal.name[0]}{r.sektor_id}{r.tura} - {zbor.name}"
+                    sl = sektor.name.split()
+                    shortBusID = createShortBusID(letter=terminal.name[0], sektor=sl[1], tura=r.tura)
+                    name = f"{shortBusID} - {zborName}"
                 else:
-                    name = zbor.name
+                    name = zborName
 
                 arrival = Arrivals.query \
                     .filter_by(bus_id=bus.id) \

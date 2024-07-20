@@ -1,6 +1,7 @@
 from flask import current_app
 from sql import Terminale, Sektory, SRA, Rozklad, Zbory
 from .helpers import _arrive_today, _arrive_by_day, _departure_by_day
+from api.createShortBusID import createShortBusID
 
 
 def _terminals_list():
@@ -32,8 +33,9 @@ def _terminals_list():
 
                     _tmp2 = dict()
                     _tmp2['id'] = rja.id
-                    _tmp2['ident'] = f"{t.name[0]}{sid}{str(rja.tura)}"
+                    _tmp2['ident'] = createShortBusID(letter=t.name[0], sektor=sid, tura=str(rja.tura))
                     _tmp2['name'] = zbor.name
+                    _tmp2['lp'] = sra.lp
                     _tmp2['tura'] = rja.tura
                     _tmp2['arrive'] = _arrive_by_day(rja)
                     _tmp2['departure'] = _departure_by_day(rja)
