@@ -12,8 +12,8 @@ def _export_to_xlsx():
 
         # budowanie nagłówka
         row = ['#', 'Data zgłoszenia',
-               'Zbór-Język', 'Zbór-Numer', 'Zbór-Nazwa',
-               'Bus-Typ', 'Bus-Trasa', 'Bus-Parking',
+               'Zbór-Język', 'Zbór-Numer', 'Zbór-Nazwa', 'Zbór-Tura',
+               'Bus-Lp', 'Bus-Identyfikator-Letter', 'Bus-Typ', 'Bus-Trasa', 'Bus-Parking',
                'Pilot-Piątek-Imię', 'Pilot-Piątek-Nazwisko', 'Pilot-Piątek-Email', 'Pilot-Piątek-Telefon',
                'Pilot-Sobota-Imię', 'Pilot-Sobota-Nazwisko', 'Pilot-Sobota-Email', 'Pilot-Sobota-Telefon',
                'Pilot-Niedziela-Imię', 'Pilot-Niedziela-Nazwisko', 'Pilot-Niedziela-Email', 'Pilot-Niedziela-Telefon',
@@ -30,8 +30,11 @@ def _export_to_xlsx():
             row.append(zbor.lang)
             row.append(zbor.number)
             row.append(zbor.name)
+            row.append(f"W{zbor.tura}")
 
             bus = Bus.query.filter_by(id=sra.bus_id).one()
+            row.append(sra.lp)
+            row.append(sra.prefix)
             row.append(_bus_type(bus.type))
             row.append(_bus_distance(bus.distance))
             row.append(_parking_mode(bus.parking_mode))

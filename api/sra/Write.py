@@ -7,6 +7,8 @@ def _write_sra(data):
     try:
         db.session.begin()
         sra = SRA.query.filter_by(id=data['id']).one()
+        sra.lp = data['bus']['lp']
+        sra.prefix = data['bus']['prefix'].upper()
         if len(data['info']) > 0:
             sra.info = data['info']
         else:
@@ -42,6 +44,7 @@ def _write_sra(data):
 
         db.session.commit()
         return '', 200
+
     except Exception as e:
         db.session.rollback()
         current_app.logger.error(f"SRA write exception: {e}")

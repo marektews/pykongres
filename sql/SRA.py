@@ -15,3 +15,4 @@ class SRA(db.Model):
     pilot3_id = db.Column(db.Integer, db.ForeignKey('Pilot.id'), nullable=True)
     info = db.Column(db.String, nullable=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    prefix = db.Column(db.String, nullable=False, default='T')

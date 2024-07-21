@@ -17,11 +17,13 @@ def _get_table():
             z["name"] = zbor.name
             z["number"] = zbor.number
             z["lang"] = zbor.lang
+            z['tura'] = zbor.tura
             item["zbor"] = z
 
             bus = Bus.query.filter_by(id=sra.bus_id).one()
             b = dict()
             b["lp"] = sra.lp
+            b['prefix'] = sra.prefix
             b["type"] = bus.type
             b["distance"] = bus.distance
             b["parking_mode"] = bus.parking_mode
