@@ -16,3 +16,4 @@ class SRA(db.Model):
     info = db.Column(db.String, nullable=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.now)
     prefix = db.Column(db.String, nullable=False, default='T')
+    static_identifier = db.Column(db.String, nullable=True)

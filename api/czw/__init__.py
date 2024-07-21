@@ -1,6 +1,6 @@
 from flask import Blueprint, current_app, request
 from sql import Zbory, Czw, db
-from datetime import datetime
+from api.whichTura import whichTura
 
 czw_api = Blueprint('czw', __name__, url_prefix='/czw')
 
@@ -8,9 +8,7 @@ czw_api = Blueprint('czw', __name__, url_prefix='/czw')
 @czw_api.route('/init', methods=['GET'])
 def initialize():
     try:
-        dt_tura3 = datetime(2024, 8, 5)
-        dt_now = datetime.now()
-        tura = 2 if dt_now < dt_tura3 else 3
+        tura = whichTura()
         zbory = Zbory.query.filter_by(tura=tura).all()
         res = []
         for z in zbory:

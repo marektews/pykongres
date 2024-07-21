@@ -8,7 +8,8 @@ def _write_sra(data):
         db.session.begin()
         sra = SRA.query.filter_by(id=data['id']).one()
         sra.lp = data['bus']['lp']
-        sra.prefix = data['bus']['prefix'].upper()
+        sra.prefix = data['bus']['prefix']
+        sra.static_identifier = data['bus']['static_identifier']
         if len(data['info']) > 0:
             sra.info = data['info']
         else:

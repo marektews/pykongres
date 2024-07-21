@@ -24,6 +24,7 @@ def _get_table():
             b = dict()
             b["lp"] = sra.lp
             b['prefix'] = sra.prefix
+            b['static_identifier'] = sra.static_identifier
             b["type"] = bus.type
             b["distance"] = bus.distance
             b["parking_mode"] = bus.parking_mode
