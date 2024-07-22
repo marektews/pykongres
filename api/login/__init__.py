@@ -45,14 +45,18 @@ def login_admin():
     _passwd = request.json['password']
     h = sha256(_passwd.encode('utf8'))
     _hash = h.hexdigest()
-    res = Users.query.filter_by(login=_login, hash=_hash).all()
-    if len(res) == 1:
+    users = Users.query.filter_by(login=_login, hash=_hash).all()
+    if len(users) == 1:
         if login_user(User(uid=_hash)):
-            return "", 200  # OK
+            res = {
+                "fn": users[0].fn,
+                "ln": users[0].ln
+            }
+            return res, 200  # OK
         else:
-            return "", 403  # Forbidden
+            return {}, 403  # Forbidden
     else:
-        return "", 401  # Unauthorized
+        return {}, 401  # Unauthorized
 
 
 @login_required
