@@ -12,6 +12,7 @@ def _zbory_all():
             tmp['number'] = z.number
             tmp['name'] = z.name
             tmp['lang'] = z.lang
+            tmp['tura'] = z.tura
             res.append(tmp)
         return res, 200
 
