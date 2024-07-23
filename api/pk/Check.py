@@ -1,6 +1,7 @@
 from flask import current_app
 from sql import db, DzialyPK
 from datetime import datetime
+from api.getActiveDay import getActiveDay
 
 
 def _pk_check(args):
@@ -31,7 +32,8 @@ def _pk_check(args):
         if pk.regnum3 is not None and pk.regnum3 != sl[4]:
             return "brak zarejestrowanego identyfikatora na ten numer rejestracyjny pojazdu", 404
         # weryfikowanie użycia
-        active_day = current_app.config['ACTIVE_DAY']
+        # active_day = current_app.config['ACTIVE_DAY']
+        active_day = getActiveDay()
         if active_day == 'd1':
             if pk.d1 is not None:
                 return f"identyfikator już użyty: {pk.d1}", 403

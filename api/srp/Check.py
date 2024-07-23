@@ -1,6 +1,7 @@
 from flask import current_app
 from sql import db, SRP
 from datetime import datetime
+from api.getActiveDay import getActiveDay
 
 
 def _srp_check(args):
@@ -31,7 +32,8 @@ def _srp_check(args):
         if srp.regnum3 is not None and srp.regnum3 != sl[3]:
             return "brak zarejestrowanego identyfikatora na ten numer rejestracyjny pojazdu", 404
         # weryfikowanie użycia
-        active_day = current_app.config['ACTIVE_DAY']
+        # active_day = current_app.config['ACTIVE_DAY']
+        active_day = getActiveDay()
         if active_day == 'd1':
             if srp.d1 is not None:
                 return f"identyfikator już użyty: {srp.d1}", 403

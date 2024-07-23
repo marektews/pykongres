@@ -1,6 +1,7 @@
 from flask import current_app
 from sql import Sektory, Rozklad, SRA, Zbory
 from .helpers import arrive_today
+from api.getActiveDay import getActiveDay
 
 
 def _sector_initialize(sid):
@@ -50,7 +51,8 @@ def _sector_initialize(sid):
 
 
 def _arrive_by_day(rja):
-    active_day = current_app.config['ACTIVE_DAY']
+    # active_day = current_app.config['ACTIVE_DAY']
+    active_day = getActiveDay()
     if active_day == 'd1':
         return rja.a1.strftime("%H:%M") if rja.a1 is not None else ''
     if active_day == 'd2':
@@ -61,7 +63,8 @@ def _arrive_by_day(rja):
 
 
 def _departure_by_day(rja):
-    active_day = current_app.config['ACTIVE_DAY']
+    # active_day = current_app.config['ACTIVE_DAY']
+    active_day = getActiveDay()
     if active_day == 'd1':
         return rja.d1.strftime("%H:%M") if rja.d1 is not None else ''
     if active_day == 'd2':
