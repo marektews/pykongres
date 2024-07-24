@@ -14,9 +14,9 @@ rja_api = Blueprint('rja', __name__, url_prefix='/rja')
 
 
 @login_required
-@rja_api.route('/zbory', methods=['GET'])
+@rja_api.route('/zbory', methods=['POST'])
 def zbory():
-    return _zbory_get_list()
+    return _zbory_get_list(request.json)
 
 
 @login_required
@@ -26,9 +26,9 @@ def buses():
 
 
 @login_required
-@rja_api.route('/sra', methods=['GET'])
+@rja_api.route('/sra', methods=['POST'])
 def sra():
-    return _sra_get_list()
+    return _sra_get_list(request.json)
 
 
 @login_required
@@ -44,9 +44,9 @@ def sectors(tid):
 
 
 @login_required
-@rja_api.route('/buses/<sid>', methods=['GET'])
+@rja_api.route('/buses/<sid>', methods=['POST'])
 def get_buses_of_sector(sid):
-    return _get_buses_of_sector(sid)
+    return _get_buses_of_sector(sid, request.json)
 
 
 @login_required
@@ -56,6 +56,6 @@ def save_buses_of_sector():
 
 
 @login_required
-@rja_api.route('/buses/used', methods=['GET'])
+@rja_api.route('/buses/used', methods=['POST'])
 def buses_get_used():
-    return _buses_get_used()
+    return _buses_get_used(request.json)
