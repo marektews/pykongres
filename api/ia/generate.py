@@ -15,10 +15,10 @@ def gen(sra, congregation, rja, sector, terminal, tura):
     elem = root.find(".//*[@id='sektor']")
     elem.text = _sector_number(sector.name)
 
-    # sektor + tura
+    # prefix + sektor + tura | static_identifier
     elem = root.find(".//*[@id='identyfikator']")
     sl = sector.name.split()
-    elem.text = createShortBusID(letter=terminal.name[0], sektor=sl[1], tura=tura, static_identifier=sra.static_identifier)
+    elem.text = createShortBusID(letter=sra.prefix, sektor=sl[1], tura=tura, static_identifier=sra.static_identifier)
 
     # nazwa zboru
     elem = root.find(".//*[@id='congregation']")
