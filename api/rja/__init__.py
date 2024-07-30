@@ -9,6 +9,7 @@ from .GetBuses import _buses_get_list
 from .GetSRA import _sra_get_list
 from .SaveSectorRJ import _save_buses_of_sector
 from .GetUsedBuses import _buses_get_used
+from .GetZborRJA import _zbor_get_rja
 
 rja_api = Blueprint('rja', __name__, url_prefix='/rja')
 
@@ -17,6 +18,12 @@ rja_api = Blueprint('rja', __name__, url_prefix='/rja')
 @rja_api.route('/zbory', methods=['POST'])
 def zbory():
     return _zbory_get_list(request.json)
+
+
+@login_required
+@rja_api.route('/zbor/<zbor_id>', methods=['GET'])
+def zbor_rja(zbor_id):
+    return _zbor_get_rja(zbor_id)
 
 
 @login_required

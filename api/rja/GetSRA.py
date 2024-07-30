@@ -16,6 +16,8 @@ def _sra_get_list(json):
                 tmp['bus_id'] = s.bus_id
                 tmp['lp'] = s.lp
                 tmp['canceled'] = False if s.canceled == 0 else True
+                tmp['prefix'] = s.prefix
+                tmp['static_identifier'] = s.static_identifier
                 res.append(tmp)
         return res, 200
     except Exception as e:

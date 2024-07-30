@@ -49,14 +49,38 @@ def login_admin():
     if len(users) == 1:
         if login_user(User(uid=_hash)):
             res = {
+                "id": users[0].id,
                 "fn": users[0].fn,
-                "ln": users[0].ln
+                "ln": users[0].ln,
+                "permissions": {
+                    "is_sra": users[0].is_sra,
+                    "is_srp": users[0].is_srp,
+                    "is_pk": users[0].is_pk,
+                    "is_rja": users[0].is_rja,
+                    "is_monitoring": users[0].is_monitoring,
+                    "is_users": users[0].is_users
+                },
             }
             return res, 200  # OK
         else:
             return {}, 403  # Forbidden
     else:
         return {}, 401  # Unauthorized
+
+
+@login_api.route('/permissions', methods=['POST'])
+def login_permissions():
+    user_id = request.json['user_id']
+    user = Users.query.filter_by(id=user_id).one()
+    res = {
+        "is_sra": user.is_sra,
+        "is_srp": user.is_srp,
+        "is_pk": user.is_pk,
+        "is_rja": user.is_rja,
+        "is_monitoring": user.is_monitoring,
+        "is_users": user.is_users
+    }
+    return res, 200
 
 
 @login_required
