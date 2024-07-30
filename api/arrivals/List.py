@@ -36,7 +36,7 @@ def _arrivals_list():
                     sektor = Sektory.query.filter_by(id=r.sektor_id).first()
                     terminal = Terminale.query.filter_by(id=sektor.tid).first()
                     sl = sektor.name.split()
-                    shortBusID = createShortBusID(letter=terminal.name[0], sektor=sl[1], tura=r.tura, static_identifier=sra.static_identifier)
+                    shortBusID = createShortBusID(letter=sra.prefix, sektor=sl[1], tura=r.tura, static_identifier=sra.static_identifier)
                     name = f"{shortBusID} - {zborName}"
                 else:
                     name = zborName

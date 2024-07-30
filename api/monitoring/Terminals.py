@@ -33,7 +33,7 @@ def _terminals_list():
 
                     _tmp2 = dict()
                     _tmp2['id'] = rja.id
-                    _tmp2['ident'] = createShortBusID(letter=t.name[0], sektor=sid, tura=str(rja.tura), static_identifier=sra.static_identifier)
+                    _tmp2['ident'] = createShortBusID(letter=sra.prefix, sektor=sid, tura=str(rja.tura), static_identifier=sra.static_identifier)
                     _tmp2['name'] = zbor.name
                     _tmp2['lp'] = sra.lp
                     _tmp2['tura'] = rja.tura
