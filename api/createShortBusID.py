@@ -1,10 +1,10 @@
 
-def createShortBusID(letter, sektor, tura, static_identifier=None):
+def createShortBusID(sra, sektor, tura):
     """
         Budowanie identyfikatora autokaru
         Format: T16, D11, W23, itp.
     """
-    if static_identifier is not None:
-        return static_identifier
+    if sra.static_identifier is not None:
+        return sra.static_identifier
     else:
-        return f"{letter}{tura}{sektor}"
+        return f"{sra.prefix}{tura}{sektor}"

@@ -12,7 +12,7 @@ def _zbor_get_rja(zbor_id):
             rja = Rozklad.query.filter_by(sra_id=sra.id).one()
             item = dict()
             item['sector'] = rja.sektor_id
-            item['ident'] = createShortBusID(letter=sra.prefix, sektor=rja.sektor_id, tura=rja.tura, static_identifier=sra.static_identifier)
+            item['ident'] = createShortBusID(sra=sra, sektor=rja.sektor_id, tura=rja.tura)
             item['zbor'] = zbor.name
             item['lp'] = sra.lp
             item['d1'] = rja.d1.strftime("%H:%M") if rja.d1 is not None else ''
