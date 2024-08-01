@@ -1,5 +1,6 @@
 from flask import Blueprint, current_app, request
 from sql import Zbory, Czw, db
+from datetime import datetime
 from api.whichTura import whichTura
 
 czw_api = Blueprint('czw', __name__, url_prefix='/czw')
