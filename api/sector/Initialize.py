@@ -2,10 +2,14 @@ from flask import current_app
 from sql import Sektory, Rozklad, SRA, Zbory
 from .helpers import arrive_today
 from api.getActiveDay import getActiveDay
+from api.createShortBusID import createShortBusID
+from api.whichTura import whichTura
 
 
 def _sector_initialize(sid):
     try:
+        tura = whichTura()
+
         # opis sektora
         sector = Sektory.query.filter_by(id=sid).one()
         # wszystkie autobusy przypisane do sektora
@@ -35,10 +39,14 @@ def _sector_initialize(sid):
             # _sra['pilot'] = TODO: maybe
             tmp['sra'] = _sra
 
-            zbor = Zbory.query.filter_by(id=sra.zbor_id).one()
+            zbor = Zbory.query.filter_by(id=sra.zbor_id, tura=tura).first()
+            if zbor is None:
+                continue
+
             _congregation = dict()
             _congregation['name'] = zbor.name
             _congregation['lang'] = zbor.lang
+            _congregation['ident'] = createShortBusID(sra=sra, sektor=sector.id, tura=rja.tura)
             tmp['congregation'] = _congregation
 
             buses.append(tmp)

@@ -2,6 +2,8 @@ from flask import current_app
 from sql import Rozklad, SRA, Sektory, Terminale, Zbory
 from .helpers import arrive_today
 from api.getActiveDay import getActiveDay
+from api.createShortBusID import createShortBusID
+from api.whichTura import whichTura
 
 
 def _buffer_initialize(bid):
@@ -9,6 +11,8 @@ def _buffer_initialize(bid):
     Zwraca wszystkie statyczne informacje na temat bufora oraz listę przypisanych do niego autobusów
     """
     try:
+        tura = whichTura()
+
         # opis bufora
         select_buffer = Terminale.query.filter_by(id=bid).one()
 
@@ -46,16 +50,20 @@ def _buffer_initialize(bid):
             # _sra['pilot'] = TODO: maybe
             tmp['sra'] = _sra
 
-            zbor = Zbory.query.filter_by(id=sra.zbor_id).one()
-            _congregation = dict()
-            _congregation['name'] = zbor.name
-            _congregation['lang'] = zbor.lang
-            tmp['congregation'] = _congregation
-
             sektor = _find_sector(select_sectors, rja.sektor_id)
             _sector = dict()
             _sector['name'] = sektor.name
             tmp['sector'] = _sector
+
+            zbor = Zbory.query.filter_by(id=sra.zbor_id, tura=tura).first()
+            if zbor is None:
+                continue
+
+            _congregation = dict()
+            _congregation['name'] = zbor.name
+            _congregation['lang'] = zbor.lang
+            _congregation['ident'] = createShortBusID(sra=sra, sektor=sektor.id, tura=rja.tura)
+            tmp['congregation'] = _congregation
 
             buses.append(tmp)
         res['buses'] = buses

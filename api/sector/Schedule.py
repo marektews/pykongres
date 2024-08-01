@@ -1,5 +1,6 @@
 from flask import current_app
 from sql import Rozklad, SRA, Zbory, Sektory
+from api.createShortBusID import createShortBusID
 
 
 def _sector_schedule(sid):
@@ -25,6 +26,7 @@ def _sector_schedule(sid):
             _zbor = dict()
             _zbor['lang'] = zbor.lang
             _zbor['name'] = zbor.name
+            _zbor['ident'] = createShortBusID(sra=sra, sektor=sector.id, tura=rja.tura)
             tmp['congregation'] = _zbor
 
             res.append(tmp)
