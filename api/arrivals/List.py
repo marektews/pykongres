@@ -1,5 +1,5 @@
 from flask import current_app
-from sql import Arrivals, Bus, Zbory, SRA, Rozklad, Sektory, Terminale
+from sql import Arrivals, Bus, Zbory, SRA, Rozklad, Sektory
 from api.createShortBusID import createShortBusID
 from api.whichTura import whichTura
 
@@ -31,12 +31,9 @@ def _arrivals_list():
                 else:
                     zborName = zbor.name
 
-                r = Rozklad.query.filter_by(sra_id=sra.id).first()
-                if r is not None:
-                    sektor = Sektory.query.filter_by(id=r.sektor_id).first()
-                    terminal = Terminale.query.filter_by(id=sektor.tid).first()
-                    sl = sektor.name.split()
-                    shortBusID = createShortBusID(sra=sra, sektor=sl[1], tura=r.tura)
+                rja = Rozklad.query.filter_by(sra_id=sra.id).first()
+                if rja is not None:
+                    shortBusID = createShortBusID(sra=sra, sektor=rja.sektor_id, tura=rja.tura)
                     name = f"{shortBusID} - {zborName}"
                 else:
                     name = zborName

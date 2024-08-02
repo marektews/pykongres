@@ -1,6 +1,6 @@
 from flask import Blueprint, request
 from .List import _arrivals_list
-from .Toggle import _toggle
+from .Set import _set
 
 arrivals_api = Blueprint('arrivals', __name__, url_prefix='/arrivals')
 
@@ -10,6 +10,6 @@ def arrivals_list():
     return _arrivals_list()
 
 
-@arrivals_api.route('/toggle', methods=['POST'])
+@arrivals_api.route('/set', methods=['POST'])
 def toggle():
-    return _toggle(request.json)
+    return _set(request.json)
