@@ -15,3 +15,4 @@ class Users(db.Model):
     is_rja = db.Column(db.Integer, nullable=False, default=0)
     is_monitoring = db.Column(db.Integer, nullable=False, default=0)
     is_users = db.Column(db.Integer, nullable=False, default=0)
+    is_limits = db.Column(db.Integer, nullable=False, default=0)

@@ -58,7 +58,8 @@ def login_admin():
                     "is_pk": users[0].is_pk,
                     "is_rja": users[0].is_rja,
                     "is_monitoring": users[0].is_monitoring,
-                    "is_users": users[0].is_users
+                    "is_users": users[0].is_users,
+                    "is_limits": users[0].is_limits
                 },
             }
             return res, 200  # OK
@@ -78,7 +79,8 @@ def login_permissions():
         "is_pk": user.is_pk,
         "is_rja": user.is_rja,
         "is_monitoring": user.is_monitoring,
-        "is_users": user.is_users
+        "is_users": user.is_users,
+        "is_limits": user.is_limits
     }
     return res, 200
 
